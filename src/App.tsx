@@ -481,7 +481,7 @@ export default function App() {
               {/* Top Utility Rail: Interactive Sourcing Details & IST Clock */}
               <div className="bg-[#9b451c]/5 px-4 md:px-8 py-1.5 border-b border-[#e9e1dc]/30 flex flex-col sm:flex-row justify-between items-center text-[10px] font-mono text-[#827470] tracking-widest uppercase font-semibold gap-2">
                 <div className="flex items-center gap-2">
-                  <span className="inline-block w-2 h-2 rounded-full bg-[#9b451c] animate-ping" />
+                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#9b451c]" />
                   <span>● Pre-Stage Sanctuary // Gathering Co-Creators</span>
                 </div>
                 
