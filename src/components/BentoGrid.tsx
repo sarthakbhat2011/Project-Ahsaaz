@@ -223,7 +223,7 @@ export default function BentoGrid() {
         </div>
       </div>
 
-      {/* 2. Artisanal Earthenware Sourcing Card (4 Columns) */}
+      {/* 2. Biodegradable Sourcing Card (4 Columns) */}
       <div className="lg:col-span-4 bg-[#ffdbce] rounded-3xl p-6 border border-[#e9e1dc] shadow-[0_10px_40px_-10px_rgba(68,42,34,0.06)] flex flex-col justify-between min-h-[500px]">
         <div>
           <div className="flex justify-between items-center mb-6">
@@ -231,7 +231,7 @@ export default function BentoGrid() {
               <Soup size={24} className="text-[#7c2e05]" />
             </div>
             <div className="flex flex-col items-end">
-              <span className="text-xs font-mono tracking-wide text-[#7c2e05]/80 uppercase font-bold">Heritage Earthenware</span>
+              <span className="text-xs font-mono tracking-wide text-[#7c2e05]/80 uppercase font-bold">Zero-Plastic Initiative</span>
               {isEarthenPledged && (
                 <button
                   type="button"
@@ -245,10 +245,10 @@ export default function BentoGrid() {
           </div>
 
           <h3 className="font-serif text-2xl text-[#370e00] font-semibold mb-2">
-            Artisanal Sourcing
+            Sustainable Sourcing
           </h3>
           <p className="font-sans text-xs md:text-sm text-[#7c2e05]/90 leading-relaxed mb-4">
-            Instead of single-use plastics, we source handcrafted, biodegradable clay bowls (Kulhads) from local traditional potters in India. This serves meals with dignity while funding rural livelihoods.
+            Instead of single-use plastics, we use handcrafted, biodegradable clay bowls (Kulhads) for serving hot meals. This ensures that every serving is completely organic and returns to the soil without leaving any microplastic footprint.
           </p>
         </div>
 
@@ -256,7 +256,7 @@ export default function BentoGrid() {
         <div className="flex-grow bg-white/75 rounded-2xl p-4 border border-[#ffb598]/30 flex flex-col justify-between my-4 max-h-[220px]">
           <div className="space-y-3.5 text-xs text-[#504441]">
             <div className="flex justify-between items-center">
-              <span className="font-mono uppercase font-bold text-[#827470] text-[10px]">Bowls Sourced:</span>
+              <span className="font-mono uppercase font-bold text-[#827470] text-[10px]">Eco-Bowls Pledged:</span>
               <span className="font-serif text-base font-bold text-[#9b451c]">{earthenBowls} Bowls</span>
             </div>
             <input
@@ -272,16 +272,16 @@ export default function BentoGrid() {
             
             <div className="grid grid-cols-2 gap-2 pt-2 border-t border-[#efe6e2]">
               <div>
-                <span className="text-[10px] font-mono text-[#827470] block uppercase">Artisan Wages:</span>
-                <span className="font-sans font-bold text-[#370e00]">₹{(earthenBowls * 3.5).toFixed(0)}</span>
-              </div>
-              <div>
                 <span className="text-[10px] font-mono text-[#827470] block uppercase">Plastic Avoided:</span>
                 <span className="font-sans font-bold text-[#370e00]">{(earthenBowls * 0.05).toFixed(1)} kg</span>
               </div>
+              <div>
+                <span className="text-[10px] font-mono text-[#827470] block uppercase">CO₂e Reduced:</span>
+                <span className="font-sans font-bold text-[#370e00]">{(earthenBowls * 0.12).toFixed(1)} kg</span>
+              </div>
               <div className="col-span-2">
-                <span className="text-[10px] font-mono text-[#827470] block uppercase">Potters Sustained:</span>
-                <span className="font-sans font-bold text-[#370e00]">{Math.ceil(earthenBowls / 150)} Traditional Artisans</span>
+                <span className="text-[10px] font-mono text-[#827470] block uppercase">Biodegradation:</span>
+                <span className="font-sans font-bold text-[#370e00]">Decomposes naturally in &lt; 30 Days</span>
               </div>
             </div>
           </div>
@@ -299,10 +299,10 @@ export default function BentoGrid() {
               {isEarthenPledged ? (
                 <>
                   <Check size={14} />
-                  Sourcing Batch Pledged
+                  Eco Sourcing Pledged
                 </>
               ) : (
-                'Support Artisans'
+                'Support Zero-Plastic'
               )}
             </button>
           </div>
