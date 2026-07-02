@@ -6,22 +6,9 @@ export default function BentoGrid() {
   // 1. Starvation Relief State (converted entirely to high-dignity care hours pledged)
   const [pledgeHours, setPledgeHours] = useState(15); // Default 15 hours of care actions monthly
 
-  // 2. Emotional Support Companion Chat State
-  const [chatInput, setChatInput] = useState('');
-  const [chatLog, setChatLog] = useState<{ sender: 'user' | 'companion'; text: string }[]>(() => {
-    const saved = localStorage.getItem('project_ahsaaz_chat_log');
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch (e) {
-        console.error("Error parsing saved chat log:", e);
-      }
-    }
-    return [
-      { sender: 'companion', text: "Namaste friend. I am here, sitting quietly in our preparation circle. How is your heart feeling today?" }
-    ];
-  });
-  const [isTyping, setIsTyping] = useState(false);
+  // 2. Artisanal Sourcing Calculator State
+  const [earthenBowls, setEarthenBowls] = useState(250);
+  const [isEarthenPledged, setIsEarthenPledged] = useState(false);
 
   // 3. Preparation Sandbox Tab State
   const [activeSandboxTab, setActiveSandboxTab] = useState<'meals' | 'map' | 'breath'>('meals');
@@ -89,46 +76,7 @@ export default function BentoGrid() {
   const [breathPhase, setBreathPhase] = useState<'inhale' | 'hold' | 'exhale' | 'hold-out'>('inhale');
   const [breathScale, setBreathScale] = useState(1);
 
-  // Companion chat responses
-  const getCompanionResponse = (input: string) => {
-    const text = input.toLowerCase();
-    if (text.includes('lonely') || text.includes('sad') || text.includes('alone') || text.includes('heavy')) {
-      return "I hear your heavy heart, and it is completely natural to feel quiet. Please know that in this very pre-stage moment, you are connected to a circle of friends who care deeply about your presence. You do not have to carry this alone.";
-    }
-    if (text.includes('help') || text.includes('volunteer') || text.includes('join')) {
-      return "A beautiful desire! Empathy in action is the ultimate balm. Register on our Sign-Up form (under the 'Join Us' tab), and we will connect you to local community circles where we sit, prepare food, and share warmth.";
-    }
-    if (text.includes('hungry') || text.includes('food') || text.includes('starve') || text.includes('meal')) {
-      return "Nourishment is a fundamental right. While we are in our pre-stage pilot organization, we are setting up our support sanctuary networks across communities in India. Sowing your support here helps us buy stenciled care boxes, medical kits, and organic grains!";
-    }
-    return "Thank you for sharing that with me. Every word you speak helps bridge the quiet gaps between us. We are in this together, preparing to restore human warmth.";
-  };
 
-  const handleChatSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!chatInput.trim()) return;
-
-    const userMsg = chatInput;
-    setChatLog(prev => {
-      const withUser = [...prev, { sender: 'user' as const, text: userMsg }];
-      localStorage.setItem('project_ahsaaz_chat_log', JSON.stringify(withUser));
-      
-      // Trigger companion reply within the callback context or asynchronously
-      setTimeout(() => {
-        const response = getCompanionResponse(userMsg);
-        setChatLog(currentLog => {
-          const withCompanion = [...currentLog, { sender: 'companion' as const, text: response }];
-          localStorage.setItem('project_ahsaaz_chat_log', JSON.stringify(withCompanion));
-          return withCompanion;
-        });
-        setIsTyping(false);
-      }, 1200);
-      
-      return withUser;
-    });
-    setChatInput('');
-    setIsTyping(true);
-  };
 
   // Run the breath cycle animation logic when active
   useEffect(() => {
@@ -275,80 +223,93 @@ export default function BentoGrid() {
         </div>
       </div>
 
-      {/* 2. Emotional Support Companion Card (4 Columns) */}
+      {/* 2. Artisanal Earthenware Sourcing Card (4 Columns) */}
       <div className="lg:col-span-4 bg-[#ffdbce] rounded-3xl p-6 border border-[#e9e1dc] shadow-[0_10px_40px_-10px_rgba(68,42,34,0.06)] flex flex-col justify-between min-h-[500px]">
         <div>
           <div className="flex justify-between items-center mb-6">
             <div className="w-12 h-12 rounded-2xl bg-white/60 flex items-center justify-center text-[#7c2e05]">
-              <Heart size={24} className="fill-[#7c2e05]" />
+              <Soup size={24} className="text-[#7c2e05]" />
             </div>
             <div className="flex flex-col items-end">
-              <span className="text-xs font-mono tracking-wide text-[#7c2e05]/80 uppercase font-bold">Pre-Stage Dialogue Prep</span>
-              {chatLog.length > 1 && (
+              <span className="text-xs font-mono tracking-wide text-[#7c2e05]/80 uppercase font-bold">Heritage Earthenware</span>
+              {isEarthenPledged && (
                 <button
                   type="button"
-                  onClick={() => {
-                    const reset = [{ sender: 'companion' as const, text: "Namaste friend. I am here, sitting quietly in our preparation circle. How is your heart feeling today?" }];
-                    setChatLog(reset);
-                    localStorage.setItem('project_ahsaaz_chat_log', JSON.stringify(reset));
-                  }}
+                  onClick={() => setIsEarthenPledged(false)}
                   className="text-[10px] font-mono text-[#9b451c] hover:text-red-700 transition-colors cursor-pointer mt-1 font-semibold"
                 >
-                  Clear Dialogue
+                  Reset Pledge
                 </button>
               )}
             </div>
           </div>
 
           <h3 className="font-serif text-2xl text-[#370e00] font-semibold mb-2">
-            Active Listening
+            Artisanal Sourcing
           </h3>
           <p className="font-sans text-xs md:text-sm text-[#7c2e05]/90 leading-relaxed mb-4">
-            We believe raw grain feeds the flesh, but unhurried attention restores the soul. Our future volunteers are practicing holding deep, quiet, non-judgmental dialogue. Try telling our companion bot how you are holding up:
+            Instead of single-use plastics, we source handcrafted, biodegradable clay bowls (Kulhads) from local traditional potters in India. This serves meals with dignity while funding rural livelihoods.
           </p>
         </div>
 
-        {/* Interactive Companion Mini-Chat */}
+        {/* Sourcing Calculator Panel */}
         <div className="flex-grow bg-white/75 rounded-2xl p-4 border border-[#ffb598]/30 flex flex-col justify-between my-4 max-h-[220px]">
-          <div className="overflow-y-auto space-y-3 flex-grow pr-1 text-xs max-h-[140px] scrollbar-thin">
-            {chatLog.map((msg, i) => (
-              <div
-                key={i}
-                className={`p-2.5 rounded-xl max-w-[85%] leading-relaxed ${
-                  msg.sender === 'user'
-                    ? 'bg-[#9b451c] text-white ml-auto rounded-tr-none'
-                    : 'bg-[#fff8f5] text-[#442a22] border border-[#efe6e2] rounded-tl-none shadow-xs'
-                }`}
-              >
-                {msg.text}
+          <div className="space-y-3.5 text-xs text-[#504441]">
+            <div className="flex justify-between items-center">
+              <span className="font-mono uppercase font-bold text-[#827470] text-[10px]">Bowls Sourced:</span>
+              <span className="font-serif text-base font-bold text-[#9b451c]">{earthenBowls} Bowls</span>
+            </div>
+            <input
+              type="range"
+              min="50"
+              max="1000"
+              step="50"
+              value={earthenBowls}
+              disabled={isEarthenPledged}
+              onChange={(e) => setEarthenBowls(Number(e.target.value))}
+              className="w-full accent-[#9b451c] cursor-pointer h-1 bg-[#e9e1dc] rounded-lg appearance-none focus:outline-none"
+            />
+            
+            <div className="grid grid-cols-2 gap-2 pt-2 border-t border-[#efe6e2]">
+              <div>
+                <span className="text-[10px] font-mono text-[#827470] block uppercase">Artisan Wages:</span>
+                <span className="font-sans font-bold text-[#370e00]">₹{(earthenBowls * 3.5).toFixed(0)}</span>
               </div>
-            ))}
-            {isTyping && (
-              <div className="p-2.5 rounded-xl bg-[#fff8f5] border border-[#efe6e2] text-[#827470] max-w-[50px] rounded-tl-none text-center">
-                <span className="animate-pulse">...</span>
+              <div>
+                <span className="text-[10px] font-mono text-[#827470] block uppercase">Plastic Avoided:</span>
+                <span className="font-sans font-bold text-[#370e00]">{(earthenBowls * 0.05).toFixed(1)} kg</span>
               </div>
-            )}
+              <div className="col-span-2">
+                <span className="text-[10px] font-mono text-[#827470] block uppercase">Potters Sustained:</span>
+                <span className="font-sans font-bold text-[#370e00]">{Math.ceil(earthenBowls / 150)} Traditional Artisans</span>
+              </div>
+            </div>
           </div>
 
-          <form onSubmit={handleChatSubmit} className="flex gap-1.5 mt-3 pt-2 border-t border-[#efe6e2]">
-            <input
-              type="text"
-              placeholder="How are you feeling today?"
-              value={chatInput}
-              onChange={(e) => setChatInput(e.target.value)}
-              className="flex-grow bg-white text-xs text-[#1e1b18] rounded-xl border-none px-3 py-2 focus:ring-1 focus:ring-[#9b451c] placeholder-[#827470]/60 outline-none"
-            />
+          <div className="mt-4 pt-2 border-t border-[#efe6e2]">
             <button
-              type="submit"
-              className="bg-[#9b451c] text-white px-4 py-2 rounded-xl text-xs font-mono font-bold uppercase tracking-wider hover:bg-[#b04f20] transition-colors cursor-pointer"
+              onClick={() => setIsEarthenPledged(true)}
+              disabled={isEarthenPledged}
+              className={`w-full py-2.5 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all duration-300 ${
+                isEarthenPledged
+                  ? 'bg-emerald-600 text-white shadow-xs cursor-default flex items-center justify-center gap-1.5'
+                  : 'bg-[#9b451c] text-white hover:bg-[#b04f20] cursor-pointer shadow-xs hover:shadow-md'
+              }`}
             >
-              Share
+              {isEarthenPledged ? (
+                <>
+                  <Check size={14} />
+                  Sourcing Batch Pledged
+                </>
+              ) : (
+                'Support Artisans'
+              )}
             </button>
-          </form>
+          </div>
         </div>
 
         <div className="text-[10px] font-mono text-[#7c2e05]/70 italic text-center mt-1">
-          Type "lonely", "help", "heavy" or describe any feeling.
+          Each earthen bowl is 100% organic and returned to the soil.
         </div>
       </div>
 
