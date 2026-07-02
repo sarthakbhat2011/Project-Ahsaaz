@@ -79,7 +79,7 @@ function getGemini(): GoogleGenAI | null {
 }
 
 // Developer Authentication Token setup
-const DEV_TOKEN = process.env.DEV_TOKEN || "sarthakbhatsamosachutni2011,2001";
+const DEV_TOKEN = process.env.DEV_TOKEN || "local_default_please_set_in_env";
 
 // HTML escape helper for XSS prevention
 function escapeHtml(str: string): string {
@@ -369,8 +369,7 @@ Write a short, highly personalized, and deeply moving 2-3 sentence "Ahsaaz Refle
   app.listen(PORT, "0.0.0.0", () => {
     console.log("=========================================================================");
     console.log(`[Project Ahsaaz Server] Running beautifully on http://localhost:${PORT}`);
-    console.log(`[SECURITY] Developer Token: sarthakbhatsamosachutni2011,2001`);
-    console.log(`[SECURITY] Use this token to authenticate in the Developer Portal.`);
+    console.log(`[SECURITY] Developer Portal is active. Authentication token is loaded locally.`);
     console.log("=========================================================================");
   });
 }
