@@ -5,7 +5,7 @@ import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import nodemailer from "nodemailer";
 
-const PORT = 3000;
+const PORT = parseInt(process.env.PORT || "3000");
 const DATA_DIR = path.join(process.cwd(), "data");
 const SIGNUPS_FILE = path.join(DATA_DIR, "signups.json");
 const EMAILS_FILE = path.join(DATA_DIR, "sent_emails.json");
