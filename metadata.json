@@ -1,0 +1,8 @@
+{
+  "name": "Remix: Project Ahsaaz",
+  "description": "An immersive, deeply empathetic humanitarian platform designed to transform profound feelings of empathy into tangible community actions for hunger relief and emotional support.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
