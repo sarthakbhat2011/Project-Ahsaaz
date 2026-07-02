@@ -4,6 +4,9 @@ import fs from "fs";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const PORT = parseInt(process.env.PORT || "3000");
 const DATA_DIR = path.join(process.cwd(), "data");
