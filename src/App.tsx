@@ -106,18 +106,22 @@ export default function App() {
     return id;
   });
 
-  const [journalLogs, setJournalLogs] = useState<{ id: string; text: string; username: string; authorId: string; createdAt: string }[]>([]);
+  const [journalLogs, setJournalLogs] = useState<{ id: string; text: string; username: string; authorId?: string; createdAt: string; isAuthor?: boolean }[]>([]);
   const [floatingLeaves, setFloatingLeaves] = useState<{ id: number; text: string; x: number; y: number }[]>([]);
   const [editingLogId, setEditingLogId] = useState<string | null>(null);
   const [editingText, setEditingText] = useState<string>('');
 
   // Fetch initial contemplations from backend
   useEffect(() => {
-    fetch('/api/contemplations')
+    fetch('/api/contemplations', {
+      headers: {
+        'X-Author-Id': authorId
+      }
+    })
       .then(res => res.json())
       .then(data => setJournalLogs(data))
       .catch(err => console.error("Error loading contemplations:", err));
-  }, []);
+  }, [authorId]);
 
   // Interactive Proposal Sandbox State (Our Ideas page)
   const [ideaTitle, setIdeaTitle] = useState('');
@@ -1025,7 +1029,7 @@ export default function App() {
                         <div className="md:col-span-5 bg-white border border-[#efe6e2] rounded-2xl p-4 max-h-[220px] overflow-y-auto space-y-3 scrollbar-thin">
                           <span className="text-[9px] font-mono text-[#827470] uppercase font-bold block pb-1 border-b border-[#e9e1dc]">Collective Contemplative Seeds</span>
                           {journalLogs.map((log, index) => {
-                            const isAuthor = log.authorId === authorId;
+                            const isAuthor = !!log.isAuthor;
                             const isEditing = editingLogId === log.id;
 
                             return (

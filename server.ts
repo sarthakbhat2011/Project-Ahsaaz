@@ -185,20 +185,28 @@ async function startServer() {
     next();
   };
 
-  // API Route: Get all recent signups (Public: email address stripped for privacy)
+  // API Route: Get all recent signups (Public: email address and private messages stripped for privacy)
   app.get("/api/signups", (req, res) => {
     const signups = readSignups();
-    const publicSignups = signups.map(({ email, ...rest }: any) => rest);
+    const publicSignups = signups.map(({ name, createdAt }: any) => ({ name, createdAt }));
     res.json(publicSignups);
   });
 
   // API Routes for Contemplation Starboard
   app.get("/api/contemplations", (req, res) => {
+    const clientAuthorId = req.headers["x-author-id"] as string;
     const list = readContemplations();
-    res.json(list);
+    const publicList = list.map((item: any) => ({
+      id: item.id,
+      text: item.text,
+      username: item.username,
+      createdAt: item.createdAt,
+      isAuthor: clientAuthorId ? item.authorId === clientAuthorId : false
+    }));
+    res.json(publicList);
   });
 
-  app.post("/api/contemplations", csrfCheck, (req, res) => {
+  app.post("/api/contemplations", csrfCheck, rateLimiter, (req, res) => {
     const { text, username, authorId } = req.body;
     if (!text || !username || !authorId) {
       return res.status(400).json({ error: "Text, username, and authorId are required." });
@@ -213,10 +221,19 @@ async function startServer() {
     };
     list.unshift(newEntry);
     writeContemplations(list);
-    res.status(201).json(newEntry);
+    
+    // Return with isAuthor: true so the creator can immediately edit/delete
+    const clientResponse = {
+      id: newEntry.id,
+      text: newEntry.text,
+      username: newEntry.username,
+      createdAt: newEntry.createdAt,
+      isAuthor: true
+    };
+    res.status(201).json(clientResponse);
   });
 
-  app.put("/api/contemplations/:id", csrfCheck, (req, res) => {
+  app.put("/api/contemplations/:id", csrfCheck, rateLimiter, (req, res) => {
     const { id } = req.params;
     const { text, authorId } = req.body;
     if (!text || !authorId) {
@@ -233,10 +250,17 @@ async function startServer() {
     }
     entry.text = text.trim();
     writeContemplations(list);
-    res.json(entry);
+    
+    res.json({
+      id: entry.id,
+      text: entry.text,
+      username: entry.username,
+      createdAt: entry.createdAt,
+      isAuthor: true
+    });
   });
 
-  app.delete("/api/contemplations/:id", csrfCheck, (req, res) => {
+  app.delete("/api/contemplations/:id", csrfCheck, rateLimiter, (req, res) => {
     const { id } = req.params;
     const { authorId } = req.body;
     if (!authorId) {
