@@ -61,15 +61,15 @@ export default function App() {
   const [currentHeroBgIndex, setCurrentHeroBgIndex] = useState(0);
   const heroBackgrounds = [
     {
-      url: "https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=1920&q=80",
+      url: "https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=1000&q=50",
       alt: "Caring hands supporting an elderly person with absolute dignity"
     },
     {
-      url: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&w=1920&q=80",
+      url: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&w=1000&q=50",
       alt: "Compassionate care and medicine handoff with deep empathy"
     },
     {
-      url: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1920&q=80",
+      url: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1000&q=50",
       alt: "Providing supplies and food security to vulnerable families"
     }
   ];
@@ -380,7 +380,7 @@ export default function App() {
             {/* Background elements */}
             <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=1920&q=80"
+                src="https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=1000&q=50"
                 alt="Sanctuary of Belonging Background"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover opacity-[0.12] blur-[1px] scale-105"
@@ -860,7 +860,7 @@ export default function App() {
                         initial={{ opacity: 0, scale: 1.1 }}
                         animate={{ opacity: 0.6, scale: 1 }}
                         transition={{ duration: 1.0, ease: "easeOut" }}
-                        src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=1920&q=80"
+                        src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=1000&q=50"
                         alt="Empathy Craft Pottery"
                         className="w-full h-full object-cover mix-blend-overlay animate-pulse-slow"
                       />
@@ -1021,7 +1021,7 @@ export default function App() {
                         initial={{ opacity: 0, scale: 1.1 }}
                         animate={{ opacity: 0.6, scale: 1 }}
                         transition={{ duration: 1.0, ease: "easeOut" }}
-                        src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1920&q=80"
+                        src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1000&q=50"
                         alt="Nourishment Support"
                         className="w-full h-full object-cover mix-blend-overlay animate-pulse-slow"
                       />
@@ -1078,7 +1078,7 @@ export default function App() {
                         initial={{ opacity: 0, scale: 1.1 }}
                         animate={{ opacity: 0.6, scale: 1 }}
                         transition={{ duration: 1.0, ease: "easeOut" }}
-                        src="https://images.unsplash.com/photo-1516841273335-e39b37888115?auto=format&fit=crop&w=1920&q=80"
+                        src="https://images.unsplash.com/photo-1516841273335-e39b37888115?auto=format&fit=crop&w=1000&q=50"
                         alt="About Our Support"
                         className="w-full h-full object-cover mix-blend-overlay animate-pulse-slow"
                       />
@@ -1228,7 +1228,7 @@ export default function App() {
                         initial={{ opacity: 0, scale: 1.1 }}
                         animate={{ opacity: 0.6, scale: 1 }}
                         transition={{ duration: 1.0, ease: "easeOut" }}
-                        src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=1920&q=80"
+                        src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=1000&q=50"
                         alt="Sanctuary Forest Grove"
                         className="w-full h-full object-cover mix-blend-overlay animate-pulse-slow"
                       />
@@ -1309,7 +1309,7 @@ export default function App() {
                         initial={{ opacity: 0, scale: 1.1 }}
                         animate={{ opacity: 0.6, scale: 1 }}
                         transition={{ duration: 1.0, ease: "easeOut" }}
-                        src="https://images.unsplash.com/photo-1531206715517-5c0ba140e2b8?auto=format&fit=crop&w=1920&q=80"
+                        src="https://images.unsplash.com/photo-1531206715517-5c0ba140e2b8?auto=format&fit=crop&w=1000&q=50"
                         alt="National Sowers Group"
                         className="w-full h-full object-cover mix-blend-overlay animate-pulse-slow"
                       />

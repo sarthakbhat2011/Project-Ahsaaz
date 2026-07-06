@@ -83,7 +83,7 @@ export default function TerracottaVessel3D() {
     let width = container.clientWidth;
     let height = container.clientHeight || 360;
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
     // 2. Camera Setup
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
@@ -299,12 +299,25 @@ export default function TerracottaVessel3D() {
     container.addEventListener('pointermove', handlePointerMove);
     container.addEventListener('pointerleave', handlePointerLeave);
 
-    // 9. Animation & Render loop
+    // 9. Intersection Observer to only render when visible in viewport
+    let isElementVisible = true;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isElementVisible = entry.isIntersecting;
+      },
+      { threshold: 0.05 }
+    );
+    if (container) {
+      observer.observe(container);
+    }
+
+    // 10. Animation & Render loop
     let animationFrameId: number;
     const clock = new THREE.Clock();
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
+      if (!isElementVisible) return;
 
       const elapsedTime = clock.getElapsedTime();
       const currentWarmth = warmthRef.current; // Real-time warmth value
@@ -397,7 +410,7 @@ export default function TerracottaVessel3D() {
 
     animate();
 
-    // 10. ResizeObserver to maintain aspect ratio on any screensize change
+    // 11. ResizeObserver to maintain aspect ratio on any screensize change
     let resizeFrameId: number;
     const handleResize = () => {
       if (!container || !renderer || !camera) return;
@@ -408,7 +421,7 @@ export default function TerracottaVessel3D() {
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
         renderer.setSize(w, h);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
       });
     };
 
@@ -424,6 +437,7 @@ export default function TerracottaVessel3D() {
       container.removeEventListener('pointermove', handlePointerMove);
       container.removeEventListener('pointerleave', handlePointerLeave);
       resizeObserver.disconnect();
+      observer.disconnect();
       renderer.dispose();
       vesselGeo.dispose();
       vesselMat.dispose();

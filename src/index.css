@@ -90,3 +90,30 @@ html {
   animation: shine-flow 8s ease infinite;
 }
 
+/* GPU Rendering Optimizations to eliminate rendering stutter */
+.animate-pulse,
+.animate-ping,
+.animate-bounce,
+.animate-spin,
+.animate-pulse-slow {
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+.glass-glossy,
+[class*="backdrop-blur"] {
+  will-change: backdrop-filter, transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+@keyframes pulse-slow-kf {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.28; }
+}
+
+@utility animate-pulse-slow {
+  animation: pulse-slow-kf 12s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
