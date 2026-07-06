@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { 
   Sprout, Heart, ChevronRight, Menu, X, ArrowDown, ArrowRight,
   Landmark, Lightbulb, Compass, Users, Sparkles, Clock, Volume2, VolumeX,
-  Send, Leaf, MessageSquare, BookOpen, Quote, Sparkle, Trash2, Terminal
+  Send, Leaf, MessageSquare, BookOpen, Quote, Sparkle, Trash2, Terminal, Pencil
 } from 'lucide-react';
 import { Signup } from './types';
 
@@ -94,37 +94,30 @@ export default function App() {
 
   // Interactive Reflection Journal State (Philosophy page)
   const [journalInput, setJournalInput] = useState('');
-  const [journalLogs, setJournalLogs] = useState<{ text: string; isUserCreated?: boolean }[]>(() => {
-    const saved = localStorage.getItem('project_ahsaaz_journal_logs_v2');
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch (e) {
-        console.error("Error parsing saved journal logs:", e);
-      }
-    }
-    const legacySaved = localStorage.getItem('project_ahsaaz_journal_logs');
-    if (legacySaved) {
-      try {
-        const parsed = JSON.parse(legacySaved);
-        if (Array.isArray(parsed)) {
-          return parsed.map((item: any) => {
-            if (typeof item === 'string') {
-              const isDefault = item === "Listening is not waiting for your turn to talk; it is giving up your internal agenda to be with another." ||
-                                item === "A fine china plate represents equality. Pity serves in paper cups; empathy serves on ceramics.";
-              return { text: item, isUserCreated: !isDefault };
-            }
-            return item;
-          });
-        }
-      } catch (e) {}
-    }
-    return [
-      { text: "Listening is not waiting for your turn to talk; it is giving up your internal agenda to be with another.", isUserCreated: false },
-      { text: "A fine china plate represents equality. Pity serves in paper cups; empathy serves on ceramics.", isUserCreated: false }
-    ];
+  const [journalUsername, setJournalUsername] = useState<string>(() => {
+    return localStorage.getItem('project_ahsaaz_journal_username') || '';
   });
+  const [authorId, setAuthorId] = useState<string>(() => {
+    let id = localStorage.getItem('project_ahsaaz_author_id');
+    if (!id) {
+      id = 'user-' + Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
+      localStorage.setItem('project_ahsaaz_author_id', id);
+    }
+    return id;
+  });
+
+  const [journalLogs, setJournalLogs] = useState<{ id: string; text: string; username: string; authorId: string; createdAt: string }[]>([]);
   const [floatingLeaves, setFloatingLeaves] = useState<{ id: number; text: string; x: number; y: number }[]>([]);
+  const [editingLogId, setEditingLogId] = useState<string | null>(null);
+  const [editingText, setEditingText] = useState<string>('');
+
+  // Fetch initial contemplations from backend
+  useEffect(() => {
+    fetch('/api/contemplations')
+      .then(res => res.json())
+      .then(data => setJournalLogs(data))
+      .catch(err => console.error("Error loading contemplations:", err));
+  }, []);
 
   // Interactive Proposal Sandbox State (Our Ideas page)
   const [ideaTitle, setIdeaTitle] = useState('');
@@ -157,12 +150,45 @@ export default function App() {
     ];
   });
 
-  const handleDeleteJournalLog = (indexToDelete: number) => {
-    setJournalLogs(prev => {
-      const updated = prev.filter((_, idx) => idx !== indexToDelete);
-      localStorage.setItem('project_ahsaaz_journal_logs_v2', JSON.stringify(updated));
-      return updated;
-    });
+  const handleDeleteJournalLog = async (idToDelete: string) => {
+    try {
+      const res = await fetch(`/api/contemplations/${idToDelete}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ authorId })
+      });
+      if (res.ok) {
+        setJournalLogs(prev => prev.filter(item => item.id !== idToDelete));
+      } else {
+        const data = await res.json();
+        alert(data.error || "Failed to delete contemplation.");
+      }
+    } catch (err) {
+      console.error("Error deleting contemplation:", err);
+    }
+  };
+
+  const handleEditJournalLog = async (idToEdit: string, newText: string) => {
+    try {
+      const res = await fetch(`/api/contemplations/${idToEdit}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ text: newText, authorId })
+      });
+      if (res.ok) {
+        const updatedEntry = await res.json();
+        setJournalLogs(prev => prev.map(item => item.id === idToEdit ? updatedEntry : item));
+      } else {
+        const data = await res.json();
+        alert(data.error || "Failed to edit contemplation.");
+      }
+    } catch (err) {
+      console.error("Error editing contemplation:", err);
+    }
   };
 
   const handleDeleteCustomIdea = (idToDelete: number) => {
@@ -264,27 +290,46 @@ export default function App() {
   }, [hasCompletedMiniGame, hasEnteredSite]);
 
   // Cast Philosophy Leaf Animation
-  const handleJournalSubmit = (e: React.FormEvent) => {
+  const handleJournalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!journalInput.trim()) return;
+    if (!journalUsername.trim()) {
+      alert("Please enter a username / name before casting your seed.");
+      return;
+    }
 
     const text = journalInput;
-    setJournalLogs(prev => {
-      const updated = [{ text, isUserCreated: true }, ...prev];
-      localStorage.setItem('project_ahsaaz_journal_logs_v2', JSON.stringify(updated));
-      return updated;
-    });
-    setJournalInput('');
+    const username = journalUsername;
 
-    // Generate random floating particles
-    const id = Date.now();
-    const leafX = Math.random() * 200 - 100; // Offset x
-    const leafY = -150; // Fly upwards
+    try {
+      const res = await fetch('/api/contemplations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ text, username, authorId })
+      });
+      if (res.ok) {
+        const newEntry = await res.json();
+        setJournalLogs(prev => [newEntry, ...prev]);
+        setJournalInput('');
 
-    setFloatingLeaves(prev => [...prev, { id, text, x: leafX, y: leafY }]);
-    setTimeout(() => {
-      setFloatingLeaves(prev => prev.filter(leaf => leaf.id !== id));
-    }, 4000);
+        // Generate random floating particles
+        const id = Date.now();
+        const leafX = Math.random() * 200 - 100; // Offset x
+        const leafY = -150; // Fly upwards
+
+        setFloatingLeaves(prev => [...prev, { id, text, x: leafX, y: leafY }]);
+        setTimeout(() => {
+          setFloatingLeaves(prev => prev.filter(leaf => leaf.id !== id));
+        }, 4000);
+      } else {
+        const data = await res.json();
+        alert(data.error || "Failed to cast seed.");
+      }
+    } catch (err) {
+      console.error("Error casting seed:", err);
+    }
   };
 
   // Publish Idea in Sandbox Proposal Widget
@@ -947,17 +992,29 @@ export default function App() {
                             Maybe the thought you share will help someone on the other side of the world.
                           </p>
 
-                          <form onSubmit={handleJournalSubmit} className="flex gap-2 max-w-lg">
+                          <form onSubmit={handleJournalSubmit} className="flex gap-2 max-w-lg items-center">
+                            <input
+                              type="text"
+                              value={journalUsername}
+                              onChange={(e) => {
+                                setJournalUsername(e.target.value);
+                                localStorage.setItem('project_ahsaaz_journal_username', e.target.value);
+                              }}
+                              placeholder="Name"
+                              className="w-24 md:w-32 bg-white border border-[#d4c3be] rounded-xl px-3.5 py-2.5 text-xs text-[#1e1b18] outline-none focus:ring-1 focus:ring-[#9b451c]"
+                              required
+                            />
                             <input
                               type="text"
                               value={journalInput}
                               onChange={(e) => setJournalInput(e.target.value)}
-                              placeholder="E.g., Empathy is recognizing myself in the quiet stranger..."
+                              placeholder="E.g., Empathy is recognizing myself..."
                               className="flex-grow bg-white border border-[#d4c3be] rounded-xl px-4 py-2.5 text-xs text-[#1e1b18] outline-none focus:ring-1 focus:ring-[#9b451c]"
+                              required
                             />
                             <button
                               type="submit"
-                              className="bg-[#9b451c] hover:bg-[#b04f20] text-white px-4 rounded-xl text-xs font-mono font-bold uppercase cursor-pointer"
+                              className="bg-[#9b451c] hover:bg-[#b04f20] text-white px-4 py-2.5 rounded-xl text-xs font-mono font-bold uppercase cursor-pointer whitespace-nowrap"
                             >
                               Cast Seed
                             </button>
@@ -968,29 +1025,77 @@ export default function App() {
                         <div className="md:col-span-5 bg-white border border-[#efe6e2] rounded-2xl p-4 max-h-[220px] overflow-y-auto space-y-3 scrollbar-thin">
                           <span className="text-[9px] font-mono text-[#827470] uppercase font-bold block pb-1 border-b border-[#e9e1dc]">Collective Contemplative Seeds</span>
                           {journalLogs.map((log, index) => {
-                            const text = typeof log === 'string' ? log : log.text;
-                            const isDeletable = typeof log === 'string' ? (
-                              log !== "Listening is not waiting for your turn to talk; it is giving up your internal agenda to be with another." &&
-                              log !== "A fine china plate represents equality. Pity serves in paper cups; empathy serves on ceramics."
-                            ) : !!log.isUserCreated;
+                            const isAuthor = log.authorId === authorId;
+                            const isEditing = editingLogId === log.id;
 
                             return (
                               <motion.div
-                                key={index}
+                                key={log.id || index}
                                 initial={{ opacity: 0, x: -5 }}
                                 animate={{ opacity: 1, x: 0 }}
-                                className="p-2.5 bg-[#fff8f5] rounded-xl border border-[#efe6e2] text-xs text-[#504441] italic font-serif leading-relaxed relative group/log flex justify-between items-start gap-2"
+                                className="p-2.5 bg-[#fff8f5] rounded-xl border border-[#efe6e2] text-xs text-[#504441] leading-relaxed relative group/log flex justify-between items-start gap-2"
                               >
-                                <span className="flex-1">"{text}"</span>
-                                {isDeletable && (
-                                  <button
-                                    onClick={() => handleDeleteJournalLog(index)}
-                                    className="text-[#827470] hover:text-red-500 transition-colors p-0.5 rounded opacity-0 group-hover/log:opacity-100 focus:opacity-100 cursor-pointer shrink-0"
-                                    title="Delete comment"
-                                    type="button"
-                                  >
-                                    <Trash2 size={12} />
-                                  </button>
+                                {isEditing ? (
+                                  <div className="flex flex-col gap-1.5 w-full">
+                                    <input
+                                      type="text"
+                                      value={editingText}
+                                      onChange={(e) => setEditingText(e.target.value)}
+                                      className="w-full bg-white border border-[#d4c3be] rounded-lg px-2.5 py-1.5 text-xs text-[#1e1b18] outline-none focus:ring-1 focus:ring-[#9b451c]"
+                                      autoFocus
+                                    />
+                                    <div className="flex gap-1.5">
+                                      <button
+                                        type="button"
+                                        onClick={async () => {
+                                          if (editingText.trim()) {
+                                            await handleEditJournalLog(log.id, editingText);
+                                            setEditingLogId(null);
+                                          }
+                                        }}
+                                        className="text-[9px] font-mono font-bold uppercase tracking-wider bg-[#9b451c] text-white px-2.5 py-1 rounded hover:bg-[#b04f20] cursor-pointer"
+                                      >
+                                        Save
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => setEditingLogId(null)}
+                                        className="text-[9px] font-mono font-bold uppercase tracking-wider bg-gray-200 text-gray-700 px-2.5 py-1 rounded hover:bg-gray-300 cursor-pointer"
+                                      >
+                                        Cancel
+                                      </button>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <>
+                                    <div className="flex-1">
+                                      <span className="block font-serif italic text-xs text-[#504441]">"{log.text}"</span>
+                                      <span className="block text-[9px] font-mono text-[#827470] mt-1.5 not-italic">— {log.username || 'Anonymous'}</span>
+                                    </div>
+                                    {isAuthor && (
+                                      <div className="flex gap-1.5 shrink-0 opacity-0 group-hover/log:opacity-100 focus-within:opacity-100 transition-opacity">
+                                        <button
+                                          onClick={() => {
+                                            setEditingLogId(log.id);
+                                            setEditingText(log.text);
+                                          }}
+                                          className="text-[#827470] hover:text-[#9b451c] transition-colors p-0.5 rounded cursor-pointer"
+                                          title="Edit thought"
+                                          type="button"
+                                        >
+                                          <Pencil size={11} />
+                                        </button>
+                                        <button
+                                          onClick={() => handleDeleteJournalLog(log.id)}
+                                          className="text-[#827470] hover:text-red-500 transition-colors p-0.5 rounded cursor-pointer"
+                                          title="Delete thought"
+                                          type="button"
+                                        >
+                                          <Trash2 size={11} />
+                                        </button>
+                                      </div>
+                                    )}
+                                  </>
                                 )}
                               </motion.div>
                             );

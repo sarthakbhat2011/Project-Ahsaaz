@@ -12,10 +12,50 @@ const PORT = parseInt(process.env.PORT || "3000");
 const DATA_DIR = path.join(process.cwd(), "data");
 const SIGNUPS_FILE = path.join(DATA_DIR, "signups.json");
 const EMAILS_FILE = path.join(DATA_DIR, "sent_emails.json");
+const CONTEMPLATIONS_FILE = path.join(DATA_DIR, "contemplations.json");
 
 // Ensure data directory exists
 if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
+}
+
+// Helper to read/write contemplations
+function readContemplations() {
+  if (!fs.existsSync(CONTEMPLATIONS_FILE)) {
+    const defaults = [
+      {
+        id: "default-1",
+        text: "Listening is not waiting for your turn to talk; it is giving up your internal agenda to be with another.",
+        username: "Ahsaaz Companion",
+        authorId: "system",
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: "default-2",
+        text: "A fine china plate represents equality. Pity serves in paper cups; empathy serves on ceramics.",
+        username: "Ahsaaz Companion",
+        authorId: "system",
+        createdAt: new Date().toISOString()
+      }
+    ];
+    writeContemplations(defaults);
+    return defaults;
+  }
+  try {
+    const data = fs.readFileSync(CONTEMPLATIONS_FILE, "utf-8");
+    return JSON.parse(data);
+  } catch (err) {
+    console.error("Error reading contemplations:", err);
+    return [];
+  }
+}
+
+function writeContemplations(data: any[]) {
+  try {
+    fs.writeFileSync(CONTEMPLATIONS_FILE, JSON.stringify(data, null, 2));
+  } catch (err) {
+    console.error("Error writing contemplations:", err);
+  }
 }
 
 // Helper to read signups
@@ -150,6 +190,70 @@ async function startServer() {
     const signups = readSignups();
     const publicSignups = signups.map(({ email, ...rest }: any) => rest);
     res.json(publicSignups);
+  });
+
+  // API Routes for Contemplation Starboard
+  app.get("/api/contemplations", (req, res) => {
+    const list = readContemplations();
+    res.json(list);
+  });
+
+  app.post("/api/contemplations", csrfCheck, (req, res) => {
+    const { text, username, authorId } = req.body;
+    if (!text || !username || !authorId) {
+      return res.status(400).json({ error: "Text, username, and authorId are required." });
+    }
+    const list = readContemplations();
+    const newEntry = {
+      id: Date.now().toString(),
+      text: text.trim(),
+      username: username.trim(),
+      authorId,
+      createdAt: new Date().toISOString()
+    };
+    list.unshift(newEntry);
+    writeContemplations(list);
+    res.status(201).json(newEntry);
+  });
+
+  app.put("/api/contemplations/:id", csrfCheck, (req, res) => {
+    const { id } = req.params;
+    const { text, authorId } = req.body;
+    if (!text || !authorId) {
+      return res.status(400).json({ error: "Text and authorId are required." });
+    }
+    const list = readContemplations();
+    const index = list.findIndex((item: any) => item.id === id);
+    if (index === -1) {
+      return res.status(404).json({ error: "Contemplation not found." });
+    }
+    const entry = list[index];
+    if (entry.authorId !== authorId) {
+      return res.status(403).json({ error: "Forbidden: You are not authorized to edit this contemplation." });
+    }
+    entry.text = text.trim();
+    writeContemplations(list);
+    res.json(entry);
+  });
+
+  app.delete("/api/contemplations/:id", csrfCheck, (req, res) => {
+    const { id } = req.params;
+    const { authorId } = req.body;
+    if (!authorId) {
+      return res.status(400).json({ error: "authorId is required." });
+    }
+    const list = readContemplations();
+    const index = list.findIndex((item: any) => item.id === id);
+    if (index === -1) {
+      return res.status(404).json({ error: "Contemplation not found." });
+    }
+    const entry = list[index];
+    if (entry.authorId !== authorId) {
+      return res.status(403).json({ error: "Forbidden: You are not authorized to delete this contemplation." });
+    }
+    list.splice(index, 1);
+    writeContemplations(list);
+    res.json({ success: true });
   });
 
   // API Route: Verify developer token
