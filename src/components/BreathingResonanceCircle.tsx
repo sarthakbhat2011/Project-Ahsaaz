@@ -66,7 +66,7 @@ export default function BreathingResonanceCircle() {
     switch (breathPhase) {
       case 'Inhale': return 'Draw in local warmth & hope';
       case 'Hold': return 'Embrace the silent connection';
-      case 'Exhale': return 'Sow empathy back into the town';
+      case 'Exhale': return 'Sow Empathy.';
       case 'Rest': return 'Stillness before the next wave';
     }
   };

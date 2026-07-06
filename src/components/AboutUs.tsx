@@ -25,7 +25,7 @@ export default function AboutUs() {
             Our Nationwide Vision
           </h2>
           <p className="font-sans text-sm md:text-base text-[#504441] leading-relaxed">
-            Project Ahsaaz is a registered non-governmental organization (NGO) dedicated to rebuilding social bonds and delivering dignity to isolated elders across India, fostering national unity and a true sense of belongingness. We prepare high-dignity care packages, arrange instant medical queues, and hold unhurried, door-to-door listening assessments.
+            Project Ahsaaz is a student-led non-governmental organization (NGO) dedicated to rebuilding social bonds and delivering dignity to isolated elders across India, fostering national unity and a true sense of belongingness. We prepare high-dignity care packages, arrange instant medical queues, and hold unhurried, door-to-door listening assessments.
           </p>
 
           <div className="pt-6">

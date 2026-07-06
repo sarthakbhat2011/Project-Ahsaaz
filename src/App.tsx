@@ -424,7 +424,7 @@ export default function App() {
                 transition={{ delay: 0.6, duration: 0.8 }}
                 className="font-sans text-sm md:text-base text-[#504441] leading-relaxed max-w-lg"
               >
-                Step inside Project Ahsaaz, a sensory-guided registered NGO sanctuary serving vulnerable lives across India, fostering a shared spirit of unity and belongingness. Let unhurried companion music wash over you.
+                Step inside Project Ahsaaz, a sensory-guided student-led NGO sanctuary serving vulnerable lives across India, fostering a shared spirit of unity and belongingness. Let unhurried companion music wash over you.
               </motion.p>
 
               {/* Scroll / Tap button */}
@@ -699,7 +699,7 @@ export default function App() {
                             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#9b451c]/10 text-[#9b451c] text-xs font-mono tracking-wider font-bold uppercase shadow-xs border border-[#9b451c]/20"
                           >
                             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                            <span>Registered NGO Sanctuary of Belonging</span>
+                            <span>Ahsaaz – Student-led NGO</span>
                           </motion.div>
 
                           <motion.h1 
@@ -713,34 +713,8 @@ export default function App() {
                             variants={staggerItemVariants}
                             className="font-sans text-sm md:text-base text-[#504441] leading-relaxed max-w-xl"
                           >
-                            Project Ahsaaz is a dedicated registered non-governmental organization (NGO) serving local communities across India. We prepare high-dignity care packages, arrange instant medical queues, and hold unhurried, door-to-door listening assessments to dissolve extreme physical and emotional isolation.
+                            Project Ahsaaz is a dedicated student-led non-governmental organization (NGO) serving local communities across India. We prepare high-dignity care packages, arrange instant medical queues, and hold unhurried listening assessments to dissolve extreme physical and emotional isolation.
                           </motion.p>
-
-                          {/* Beautiful Visuals: Core values mini grid */}
-                          <motion.div 
-                            variants={staggerItemVariants} 
-                            className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl pt-2"
-                          >
-                            <div className="p-4 bg-white/70 border border-[#efe6e2] rounded-2xl flex items-center gap-3.5 shadow-xs hover:shadow-md transition-all duration-300 backdrop-blur-xs group">
-                              <span className="p-2.5 bg-[#9b451c]/10 text-[#9b451c] rounded-xl shrink-0 group-hover:scale-105 transition-transform">
-                                <Heart size={16} className="animate-pulse" />
-                              </span>
-                              <div className="flex flex-col">
-                                <span className="font-serif text-xs md:text-sm font-bold text-[#442a22]">Dignity Packages</span>
-                                <span className="text-[10px] font-mono text-[#827470]">Copper &amp; brassware kits</span>
-                              </div>
-                            </div>
-                            
-                            <div className="p-4 bg-white/70 border border-[#efe6e2] rounded-2xl flex items-center gap-3.5 shadow-xs hover:shadow-md transition-all duration-300 backdrop-blur-xs group">
-                              <span className="p-2.5 bg-[#d29d53]/15 text-[#9b451c] rounded-xl shrink-0 group-hover:scale-105 transition-transform">
-                                <Users size={16} />
-                              </span>
-                              <div className="flex flex-col">
-                                <span className="font-serif text-xs md:text-sm font-bold text-[#442a22]">Presence Care</span>
-                                <span className="text-[10px] font-mono text-[#827470]">Door-to-door assessments</span>
-                              </div>
-                            </div>
-                          </motion.div>
 
 
 
@@ -805,7 +779,7 @@ export default function App() {
                           </div>
                           <h2 className="font-serif text-3xl md:text-5xl text-[#442a22] font-black tracking-tight">The Pre-Stage Genesis</h2>
                           <p className="font-sans text-xs md:text-sm text-[#827470] max-w-2xl mx-auto leading-relaxed">
-                            We are in a vital preparatory phase as a registered grassroots NGO, securing logistics networks, listing forgotten elder coordinates, and training volunteers for unhurried emotional care.
+                            We are in a vital preparatory phase as a student-led grassroots NGO, securing logistics networks, listing forgotten elder coordinates, and training volunteers for unhurried emotional care.
                           </p>
                         </div>
 
@@ -820,7 +794,7 @@ export default function App() {
                               Material Sourcing
                             </h4>
                             <p className="text-xs text-[#504441] leading-relaxed">
-                              We are raising initial funding for handcrafted stenciled care boxes, emergency wellness kits, and ceramic plates to completely ban sterile, impersonal charity.
+                              We curate biodegradable, zero-plastic serving materials like handcrafted clay bowls and organic linen. By prioritizing natural, traditional earthenware, we eliminate single-use plastics and serve community meals with environmental consciousness and deep respect.
                             </p>
                           </div>
                           
@@ -848,7 +822,7 @@ export default function App() {
                               Presence Training
                             </h4>
                             <p className="text-xs text-[#504441] leading-relaxed">
-                              We meet on Sundays in quiet parks to practice deep-listening, silence-acceptance, and non-invasive emotional support.
+                              We conduct peer workshops to prepare volunteers for compassionate community interaction. By training in mindful presence and supportive dialogue, our team ensures every food outreach event is defined by warmth, respect, and authentic connection.
                             </p>
                           </div>
                         </div>
@@ -927,7 +901,7 @@ export default function App() {
                           The Sanskrit and Urdu root of <strong>Ahsaaz</strong> refers to a visceral realization. It isn't a passive concept of pity, nor a cold digital database entries. Ahsaaz is the moment you look another suffering human in the eyes and realize: <em>"Their hunger is my hunger, and their loneliness is my concern."</em>
                         </p>
                         <p className="font-sans text-sm md:text-base text-[#504441] leading-relaxed">
-                          We believe that sterile charity strips away dignity. When a meal is handed out in thin plastic bags by volunteers looking at their wristwatches, it reinforces class distance. We are here to dissolve that distance. We choose brassware, ceramics, and unhurried conversations.
+                          We believe that sterile charity strips away dignity. When food is distributed as a cold handout, it reinforces social distance. Our mission is to dissolve that barrier. By choosing organic earthenware and engaging in unhurried conversations, we foster mutual respect and a true sense of belonging.
                         </p>
 
                         <div className="p-4 bg-[#fff8f5] rounded-2xl border border-[#efe6e2] flex items-start gap-4">
@@ -970,7 +944,7 @@ export default function App() {
                           </div>
                           <h3 className="font-serif text-2xl text-[#442a22] font-semibold">The Active Contemplation Starboard</h3>
                           <p className="text-xs text-[#504441] leading-relaxed">
-                            Empathy begins inside our own minds. Type an unhurried thought, a realization, or a definition of human connection below. "Cast your thought" to watch it dissolve as a glowing seed particle, joining our collective reflection wall below.
+                            Maybe the thought you share will help someone on the other side of the world.
                           </p>
 
                           <form onSubmit={handleJournalSubmit} className="flex gap-2 max-w-lg">
@@ -1522,7 +1496,7 @@ export default function App() {
                     Project <span className="text-amber-400">Ahsaaz</span>
                   </h3>
                   <p className="font-sans text-xs text-[#a89995] max-w-sm leading-relaxed">
-                    A collaborative registered grassroots NGO sanctuary slowly preparing unhurried starvation relief walks, healthcare coordination assessments, and ceramicware dining spaces across communities in India.
+                    A collaborative student-led grassroots NGO sanctuary slowly preparing unhurried starvation relief walks, healthcare coordination assessments, and ceramicware dining spaces across communities in India.
                   </p>
                 </div>
                 
@@ -1548,7 +1522,7 @@ export default function App() {
                     "Every person is a welcoming guest, not a transaction statistics row."
                   </p>
                   <p className="text-[11px] text-[#827470] pt-2 flex flex-wrap items-center justify-start md:justify-end gap-1.5">
-                    <span>© 2026 Project Ahsaaz. Registered NGO. Sanctuary of Belonging.</span>
+                    <span>© 2026 Project Ahsaaz. Student-led NGO. Sanctuary of Belonging.</span>
                     <button 
                       onClick={() => setShowDevModal(true)}
                       className="text-[#827470]/60 hover:text-amber-500 transition-colors cursor-pointer inline-flex items-center"
