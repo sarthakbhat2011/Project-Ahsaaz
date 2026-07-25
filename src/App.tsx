@@ -453,9 +453,13 @@ export default function App() {
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 0.2, duration: 0.8 }}
-                className="w-20 h-20 rounded-full bg-white border border-[#efe6e2] flex items-center justify-center text-[#9b451c] shadow-lg mb-4"
+                className="w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-white border border-[#efe6e2] p-1.5 flex items-center justify-center shadow-lg mb-4 overflow-hidden"
               >
-                <Sprout size={36} className="animate-bounce" />
+                <img 
+                  src="/project-ahsaaz-logo.jpg" 
+                  alt="Project Ahsaaz Logo" 
+                  className="w-full h-full object-contain"
+                />
               </motion.div>
 
               <motion.h1
@@ -555,13 +559,18 @@ export default function App() {
               </div>
 
               {/* Main Rail Navigation */}
-              <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex justify-between items-center">
+              <div className="max-w-7xl mx-auto px-4 md:px-8 py-3.5 flex justify-between items-center">
                 
                 {/* Brand Identity */}
                 <div 
-                  className="flex items-center gap-3.5 cursor-pointer group" 
+                  className="flex items-center gap-3 cursor-pointer group" 
                   onClick={() => { setActiveTab('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                 >
+                  <img 
+                    src="/project-ahsaaz-logo.jpg" 
+                    alt="Project Ahsaaz Logo" 
+                    className="w-10 h-10 md:w-11 md:h-11 object-contain rounded-xl border border-[#efe6e2] shadow-xs group-hover:scale-105 transition-transform" 
+                  />
                   <div className="flex flex-col">
                     <span className="font-serif text-xl md:text-2xl font-bold tracking-tight text-[#442a22]">
                       Project Ahsaaz

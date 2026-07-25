@@ -62,17 +62,20 @@ export default function PlainPreloader({ onComplete }: PlainPreloaderProps) {
 
       {/* Top Brand metadata */}
       <div className="w-full max-w-5xl mx-auto flex justify-between items-center relative z-10">
-        <span className="font-serif text-sm font-semibold tracking-wide text-[#442a22]">Project Ahsaaz</span>
+        <div className="flex items-center gap-2.5">
+          <img src="/project-ahsaaz-logo.jpg" alt="Project Ahsaaz Logo" className="w-8 h-8 object-contain rounded-full border border-[#efe6e2]" />
+          <span className="font-serif text-sm font-semibold tracking-wide text-[#442a22]">Project Ahsaaz</span>
+        </div>
         <span className="font-mono text-[9px] tracking-widest text-[#827470] uppercase">Empathy Awakening</span>
       </div>
 
-      {/* Centerpiece Pulsing Sprout Icon and Progress */}
+      {/* Centerpiece Pulsing Logo and Progress */}
       <div className="flex-grow flex flex-col items-center justify-center relative z-10">
-        <div className="relative mb-8">
+        <div className="relative mb-6">
           {/* Pulsing ring aura */}
           <motion.div
             animate={{
-              scale: [1, 1.4, 1],
+              scale: [1, 1.25, 1],
               opacity: [0.3, 0.7, 0.3],
             }}
             transition={{
@@ -83,9 +86,18 @@ export default function PlainPreloader({ onComplete }: PlainPreloaderProps) {
             className="absolute -inset-4 rounded-full bg-radial from-[#ffdbce] to-transparent blur-md"
           />
 
-          <div className="w-16 h-16 rounded-full bg-[#fbf2ed] border border-[#efe6e2] flex items-center justify-center text-[#9b451c] shadow-sm relative z-10">
-            <Sprout size={28} className="animate-pulse" />
-          </div>
+          <motion.div 
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            className="w-28 h-28 md:w-36 md:h-36 rounded-2xl bg-white border border-[#efe6e2] p-2 flex items-center justify-center shadow-md relative z-10 overflow-hidden"
+          >
+            <img 
+              src="/project-ahsaaz-logo.jpg" 
+              alt="Project Ahsaaz Official Logo" 
+              className="w-full h-full object-contain"
+            />
+          </motion.div>
         </div>
 
         {/* Title */}
@@ -93,7 +105,7 @@ export default function PlainPreloader({ onComplete }: PlainPreloaderProps) {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="font-serif text-3xl md:text-4xl text-[#442a22] font-bold tracking-tight mb-2 text-center"
+          className="font-serif text-2xl md:text-3xl text-[#442a22] font-bold tracking-tight mb-2 text-center"
         >
           Project Ahsaaz
         </motion.h1>
