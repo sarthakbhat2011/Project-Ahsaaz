@@ -58,7 +58,7 @@ export default function AboutUs() {
                 Project Ahsaaz did not originate in a sterile boardroom. It blossomed in the local streets of our neighborhoods when we noticed our elderly neighbors sitting in silence, struggling with physical nourishment and a complete loss of emotional security.
               </p>
               <p className="font-sans text-xs md:text-sm text-[#504441] leading-relaxed">
-                We packed hot stenciled care packages, gathered premium ceramic wares, and knocked on doors, asking a transformative question: <em className="text-[#9b451c] font-medium">“May we sit and listen to you today?”</em>
+                We packed hot stenciled care packages, gathered sustainable tableware, and knocked on doors, asking a transformative question: <em className="text-[#9b451c] font-medium">“May we sit and listen to you today?”</em>
               </p>
               <div className="p-4 bg-[#fff8f5] rounded-2xl border border-[#efe6e2] text-xs font-serif italic text-[#9b451c] font-semibold">
                 “We do not deliver charity. We rebuild the broken bridges of human attention.”
@@ -68,12 +68,8 @@ export default function AboutUs() {
 
           {/* Right Core Pillars */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="space-y-2">
+            <div>
               <span className="text-[10px] font-mono text-[#827470] uppercase font-extrabold tracking-widest block">Core Organizational Pillars</span>
-              <h3 className="font-serif text-2xl md:text-3xl text-[#442a22] font-bold">An NGO Sowing Authentic Kinship</h3>
-              <p className="font-sans text-xs md:text-sm text-[#504441] leading-relaxed">
-                We reject the cold, transactional nature of standard handouts. We serve our neighborhood guests on fine ceramics, verify transparency with open databases, and train volunteers in slow, door-to-door therapeutic listening.
-              </p>
             </div>
 
             <div className="grid grid-cols-1 gap-4">
@@ -85,7 +81,7 @@ export default function AboutUs() {
                 },
                 {
                   title: "Radical Hospitality",
-                  description: "Feeding is not charity; it is dining together. We serve food on high-quality bone-china dishes to restore dignity and break down the barrier of helper versus helped.",
+                  description: "Feeding is not charity; it is dining together. We serve food on high-quality sustainable tableware to restore dignity and break down the barrier of helper versus helped.",
                   icon: <Users size={20} className="text-[#9b451c]" />
                 },
                 {

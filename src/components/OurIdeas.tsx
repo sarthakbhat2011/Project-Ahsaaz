@@ -18,12 +18,12 @@ export default function OurIdeas() {
   const ideas: Idea[] = [
     {
       id: 'dignity-ceramics',
-      title: 'Dignity Ceramic Service',
+      title: 'Dignity Tableware Service',
       tag: 'Aesthetic Hospitality',
-      description: 'We completely reject paper plates or disposable trays. Every guest at our relief table is served with pristine bone-china ceramic tableware.',
-      detailedConcept: 'To truly heal hunger, we must first restore dignity. Disposables treat people like waste. By introducing beautiful, heavy ceramic cups, copper plates, and polished linen, we turn an act of "hand-out charity" into an experience of authentic high-quality hospitality. We sit and wash dishes together with our guests after the meal, fostering deep-seated equality.',
+      description: 'We completely reject paper plates or disposable trays. Every guest at our relief table is served with pristine, sustainable tableware.',
+      detailedConcept: 'To truly heal hunger, we must first restore dignity. Disposables treat people like waste. By introducing beautiful, sustainable tableware and eco-friendly serving sets, we turn an act of "hand-out charity" into an experience of authentic high-quality hospitality. We sit and wash dishes together with our guests after the meal, fostering deep-seated equality.',
       icon: <Layers className="text-[#9b451c]" size={24} />,
-      visualHighlight: 'Bone-China Plates & Handcrafted Linen'
+      visualHighlight: 'Sustainable Tableware & Artisanal Dining Sets'
     },
     {
       id: 'vulnerability-mapping',

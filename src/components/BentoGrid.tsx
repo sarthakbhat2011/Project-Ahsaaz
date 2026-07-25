@@ -142,17 +142,17 @@ export default function BentoGrid() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 w-full animate-fade-in" id="work">
       
-      {/* 1. Pre-Stage Starvation Relief Card (8 Columns) - Completely Converted to High-Dignity Pledges */}
-      <div className="lg:col-span-8 bg-white rounded-3xl p-6 md:p-8 border border-[#e9e1dc] shadow-[0_10px_40px_-10px_rgba(68,42,34,0.06)] relative overflow-hidden group flex flex-col justify-between min-h-[500px]">
-        {/* Background Image Overlay */}
-        <div className="absolute inset-0 z-0">
-          <img
+      {/* 1. Starvation Relief Card (12 Columns) */}
+      <div className="lg:col-span-12 bg-gradient-to-br from-white to-[#fffbf9] rounded-3xl p-6 md:p-8 border border-[#efe6e2] shadow-[0_10px_40px_-10px_rgba(68,42,34,0.06)] flex flex-col justify-between relative overflow-hidden group min-h-[400px]">
+        {/* Background Ambient Glow & Subtle Texture */}
+        <div className="absolute top-0 right-0 w-80 h-80 bg-[#fe9162]/5 rounded-full blur-3xl pointer-events-none group-hover:bg-[#fe9162]/10 transition-colors duration-700" />
+        <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-3xl">
+          <img 
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuB140qtVjfSBDuq8zaJInJEnUf-kuTfLOl5L06KhG7oh20R-798iUxZuxHas1jwmCHVOxd7bd5wWqO_rIhizCppQ-XeC7F9d9YInD_OyU6M7gY1zS3wpjJmGegFu4kJEweLFZYKOo5oDl7hoFjacY4c7e7IuX4D7u7vXZP8crxScdpZWlZCtVBsd20eG2UXcT68M6v934MTrnObpP5g3dri19qmysRqkZEispLxHR5gLd44_VaSIZtiH4MKpDlo0pBLJSdgaF6c0qI"
             alt="Warm dignified meal distribution in India"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover opacity-[0.05] group-hover:opacity-[0.09] transition-opacity duration-700"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-transparent" />
         </div>
 
         {/* Content */}
@@ -172,7 +172,7 @@ export default function BentoGrid() {
               Starvation Relief &amp; Care (Pilot Prep)
             </h3>
             <p className="font-sans text-sm text-[#504441] max-w-xl leading-relaxed">
-              We are preparing our first local compassion-sourcing network across various Indian community circles. Instead of cold, transactional handouts, we are sourcing pure copper pots and brassware plates to serve hot, nutrition-rich meals with dedicated companion circles.
+              We are preparing our first local compassion-sourcing network across various Indian community circles. Instead of cold, transactional handouts, we are sourcing sustainable earthenware tableware and clay serving vessels to serve hot, nutrition-rich meals with dedicated companion circles.
             </p>
           </div>
 
@@ -220,96 +220,6 @@ export default function BentoGrid() {
             <ShieldAlert size={12} className="text-[#fe9162]" />
             We have not served meals yet. We are completely in our pre-stage, securing supplies and volunteers.
           </p>
-        </div>
-      </div>
-
-      {/* 2. Biodegradable Sourcing Card (4 Columns) */}
-      <div className="lg:col-span-4 bg-[#ffdbce] rounded-3xl p-6 border border-[#e9e1dc] shadow-[0_10px_40px_-10px_rgba(68,42,34,0.06)] flex flex-col justify-between min-h-[500px]">
-        <div>
-          <div className="flex justify-between items-center mb-6">
-            <div className="w-12 h-12 rounded-2xl bg-white/60 flex items-center justify-center text-[#7c2e05]">
-              <Soup size={24} className="text-[#7c2e05]" />
-            </div>
-            <div className="flex flex-col items-end">
-              <span className="text-xs font-mono tracking-wide text-[#7c2e05]/80 uppercase font-bold">Zero-Plastic Initiative</span>
-              {isEarthenPledged && (
-                <button
-                  type="button"
-                  onClick={() => setIsEarthenPledged(false)}
-                  className="text-[10px] font-mono text-[#9b451c] hover:text-red-700 transition-colors cursor-pointer mt-1 font-semibold"
-                >
-                  Reset Pledge
-                </button>
-              )}
-            </div>
-          </div>
-
-          <h3 className="font-serif text-2xl text-[#370e00] font-semibold mb-2">
-            Sustainable Sourcing
-          </h3>
-          <p className="font-sans text-xs md:text-sm text-[#7c2e05]/90 leading-relaxed mb-4">
-            Instead of single-use plastics, we use handcrafted, biodegradable clay bowls (Kulhads) for serving hot meals. This ensures that every serving is completely organic and returns to the soil without leaving any microplastic footprint.
-          </p>
-        </div>
-
-        {/* Sourcing Calculator Panel */}
-        <div className="flex-grow bg-white/75 rounded-2xl p-4 border border-[#ffb598]/30 flex flex-col justify-between my-4 max-h-[220px]">
-          <div className="space-y-3.5 text-xs text-[#504441]">
-            <div className="flex justify-between items-center">
-              <span className="font-mono uppercase font-bold text-[#827470] text-[10px]">Eco-Bowls Pledged:</span>
-              <span className="font-serif text-base font-bold text-[#9b451c]">{earthenBowls} Bowls</span>
-            </div>
-            <input
-              type="range"
-              min="50"
-              max="1000"
-              step="50"
-              value={earthenBowls}
-              disabled={isEarthenPledged}
-              onChange={(e) => setEarthenBowls(Number(e.target.value))}
-              className="w-full accent-[#9b451c] cursor-pointer h-1 bg-[#e9e1dc] rounded-lg appearance-none focus:outline-none"
-            />
-            
-            <div className="grid grid-cols-2 gap-2 pt-2 border-t border-[#efe6e2]">
-              <div>
-                <span className="text-[10px] font-mono text-[#827470] block uppercase">Plastic Avoided:</span>
-                <span className="font-sans font-bold text-[#370e00]">{(earthenBowls * 0.05).toFixed(1)} kg</span>
-              </div>
-              <div>
-                <span className="text-[10px] font-mono text-[#827470] block uppercase">CO₂e Reduced:</span>
-                <span className="font-sans font-bold text-[#370e00]">{(earthenBowls * 0.12).toFixed(1)} kg</span>
-              </div>
-              <div className="col-span-2">
-                <span className="text-[10px] font-mono text-[#827470] block uppercase">Biodegradation:</span>
-                <span className="font-sans font-bold text-[#370e00]">Decomposes naturally in &lt; 30 Days</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-4 pt-2 border-t border-[#efe6e2]">
-            <button
-              onClick={() => setIsEarthenPledged(true)}
-              disabled={isEarthenPledged}
-              className={`w-full py-2.5 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all duration-300 ${
-                isEarthenPledged
-                  ? 'bg-emerald-600 text-white shadow-xs cursor-default flex items-center justify-center gap-1.5'
-                  : 'bg-[#9b451c] text-white hover:bg-[#b04f20] cursor-pointer shadow-xs hover:shadow-md'
-              }`}
-            >
-              {isEarthenPledged ? (
-                <>
-                  <Check size={14} />
-                  Eco Sourcing Pledged
-                </>
-              ) : (
-                'Support Zero-Plastic'
-              )}
-            </button>
-          </div>
-        </div>
-
-        <div className="text-[10px] font-mono text-[#7c2e05]/70 italic text-center mt-1">
-          Each earthen bowl is 100% organic and returned to the soil.
         </div>
       </div>
 
@@ -377,19 +287,19 @@ export default function BentoGrid() {
                     <span className="text-[10px] font-mono text-[#827470] uppercase font-bold tracking-widest block mb-1">Dignity Cooking Sourcing Simulator</span>
                     <h4 className="font-serif text-lg text-[#442a22] font-semibold">Build a Virtual "Dignity Plate"</h4>
                     <p className="font-sans text-xs text-[#504441] leading-relaxed">
-                      Instead of thin plastic containers, our pilot prepares food in earthenware, wrapped in organic linen. Choose ingredients to customize:
+                      Instead of single-use plastic containers, our pilot prepares meals in eco-friendly biodegradable packaging and sustainable tableware. Choose ingredients to customize:
                     </p>
                   </div>
 
                   <div className="space-y-4">
                     {/* Grain selection */}
                     <div className="space-y-1.5">
-                      <span className="text-[10px] font-mono text-[#827470] uppercase block">Select Base Organic Grain:</span>
+                      <span className="text-[10px] font-mono text-[#827470] uppercase block">Select Organic Whole Grain Base:</span>
                       <div className="flex gap-2">
                         {[
-                          { id: 'basmati', name: 'Dehraduni Basmati' },
-                          { id: 'dalia', name: 'Broken Wheat Dalia' },
-                          { id: 'millet', name: 'Barnyard Millet' }
+                          { id: 'basmati', name: 'Aromatic Basmati Rice' },
+                          { id: 'dalia', name: 'Nutritious Wheat Dalia' },
+                          { id: 'millet', name: 'Ancient Barnyard Millet' }
                         ].map((grain) => (
                           <button
                             key={grain.id}
@@ -406,12 +316,12 @@ export default function BentoGrid() {
 
                     {/* Stew selection */}
                     <div className="space-y-1.5">
-                      <span className="text-[10px] font-mono text-[#827470] uppercase block">Select Protein Curry:</span>
+                      <span className="text-[10px] font-mono text-[#827470] uppercase block">Select Nutritious Entrée:</span>
                       <div className="flex gap-2">
                         {[
-                          { id: 'rajma', name: 'Shahi Rajma' },
-                          { id: 'dal', name: 'Yellow Moong Dal' },
-                          { id: 'vegetable', name: 'Root Veggie Stew' }
+                          { id: 'rajma', name: 'Slow-Cooked Rajma Curry' },
+                          { id: 'dal', name: 'Traditional Yellow Lentil Dal' },
+                          { id: 'vegetable', name: 'Wholesome Garden Vegetable Stew' }
                         ].map((stew) => (
                           <button
                             key={stew.id}
@@ -428,7 +338,7 @@ export default function BentoGrid() {
 
                     {/* Blessing message */}
                     <div className="space-y-1.5">
-                      <span className="text-[10px] font-mono text-[#827470] uppercase block">Linen Message of Hope (Stenciled):</span>
+                      <span className="text-[10px] font-mono text-[#827470] uppercase block">Message of Hope (Stenciled Note):</span>
                       <div className="space-y-1.5">
                         {blessings.map((msg, idx) => (
                           <button
@@ -471,7 +381,7 @@ export default function BentoGrid() {
                         >
                           <Soup size={20} />
                         </motion.div>
-                        <p className="font-mono text-xs text-[#827470] animate-pulse">Laying Dehraduni grains, infusing ghee, wrapping in organic linen cloth...</p>
+                        <p className="font-mono text-xs text-[#827470] animate-pulse">Preparing organic grains, infusing wholesome ingredients, packaging in eco-friendly containers...</p>
                       </motion.div>
                     )}
 
@@ -487,8 +397,8 @@ export default function BentoGrid() {
                         </div>
                         <h5 className="font-serif text-base text-[#442a22] font-semibold">Meal Prepared &amp; Stenciled!</h5>
                         <div className="p-3 bg-[#fff8f5] rounded-xl border border-[#efe6e2] text-xs space-y-1 max-w-xs text-left font-mono">
-                          <p><strong className="text-[#827470]">Base:</strong> {selectedGrain === 'basmati' ? 'Dehraduni Basmati' : selectedGrain === 'dalia' ? 'Wheat Dalia' : 'Barnyard Millet'}</p>
-                          <p><strong className="text-[#827470]">Curry:</strong> {selectedStew === 'rajma' ? 'Shahi Rajma' : selectedStew === 'dal' ? 'Yellow Moong Dal' : 'Root Veggie Stew'}</p>
+                          <p><strong className="text-[#827470]">Grain Base:</strong> {selectedGrain === 'basmati' ? 'Aromatic Basmati Rice' : selectedGrain === 'dalia' ? 'Nutritious Wheat Dalia' : 'Ancient Barnyard Millet'}</p>
+                          <p><strong className="text-[#827470]">Entrée:</strong> {selectedStew === 'rajma' ? 'Slow-Cooked Rajma Curry' : selectedStew === 'dal' ? 'Traditional Yellow Lentil Dal' : 'Wholesome Garden Vegetable Stew'}</p>
                           <p><strong className="text-[#827470]">Note:</strong> "{blessings[selectedBlessing]}"</p>
                         </div>
                         <p className="text-[10px] font-mono text-emerald-600">Simulated plate registered in pre-launch logs.</p>

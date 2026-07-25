@@ -30,8 +30,8 @@ export default function EmpathyGrove({ signups, onRefresh }: EmpathyGroveProps) 
     {
       name: "Devanshu Mehta",
       email: "dev@mehta.net",
-      message: "Dignified starvation relief starts by serving meals in fine bone-china plates, not paper cups.",
-      reflection: "Devanshu, replacing sterile charity with bone-china is a profound statement of equality. You are reminding us that eating is a ceremony of absolute dignity, not an act of pity.",
+      message: "Dignified starvation relief starts by serving meals in fine sustainable tableware, not paper cups.",
+      reflection: "Devanshu, replacing sterile charity with sustainable tableware is a profound statement of equality. You are reminding us that eating is a ceremony of absolute dignity, not an act of pity.",
       timestamp: new Date(Date.now() - 3600000 * 48).toISOString()
     }
   ];
