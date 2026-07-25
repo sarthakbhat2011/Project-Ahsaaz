@@ -122,7 +122,7 @@ function getGemini(): GoogleGenAI | null {
 }
 
 // Developer Authentication Token setup
-const DEV_TOKEN = process.env.DEV_TOKEN || "local_default_please_set_in_env";
+const DEV_TOKEN = process.env.DEV_TOKEN || "ahsaazdev123";
 
 // HTML escape helper for XSS prevention
 function escapeHtml(str: string): string {

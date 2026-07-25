@@ -1743,7 +1743,7 @@ export default function App() {
                               setDevTokenInput(e.target.value);
                               setDevAuthError('');
                             }}
-                            placeholder="Enter 12-char token"
+                            placeholder="Enter token (e.g. ahsaazdev123)"
                             className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-xs outline-none focus:border-[#fe9162] text-white font-mono"
                           />
                         </div>
