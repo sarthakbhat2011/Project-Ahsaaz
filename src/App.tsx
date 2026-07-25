@@ -453,12 +453,12 @@ export default function App() {
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 0.2, duration: 0.8 }}
-                className="w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-white border border-[#efe6e2] p-1.5 flex items-center justify-center shadow-lg mb-4 overflow-hidden"
+                className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white border border-[#efe6e2] p-1.5 flex items-center justify-center shadow-lg mb-4 overflow-hidden"
               >
                 <img 
                   src="/project-ahsaaz-logo.jpg" 
                   alt="Project Ahsaaz Logo" 
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-cover rounded-full"
                 />
               </motion.div>
 
@@ -569,7 +569,7 @@ export default function App() {
                   <img 
                     src="/project-ahsaaz-logo.jpg" 
                     alt="Project Ahsaaz Logo" 
-                    className="w-10 h-10 md:w-11 md:h-11 object-contain rounded-xl border border-[#efe6e2] shadow-xs group-hover:scale-105 transition-transform" 
+                    className="w-10 h-10 md:w-11 md:h-11 object-cover rounded-full border border-[#efe6e2] shadow-xs group-hover:scale-105 transition-transform" 
                   />
                   <div className="flex flex-col">
                     <span className="font-serif text-xl md:text-2xl font-bold tracking-tight text-[#442a22]">

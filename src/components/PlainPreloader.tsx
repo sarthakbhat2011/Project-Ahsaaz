@@ -63,7 +63,7 @@ export default function PlainPreloader({ onComplete }: PlainPreloaderProps) {
       {/* Top Brand metadata */}
       <div className="w-full max-w-5xl mx-auto flex justify-between items-center relative z-10">
         <div className="flex items-center gap-2.5">
-          <img src="/project-ahsaaz-logo.jpg" alt="Project Ahsaaz Logo" className="w-8 h-8 object-contain rounded-full border border-[#efe6e2]" />
+          <img src="/project-ahsaaz-logo.jpg" alt="Project Ahsaaz Logo" className="w-8 h-8 object-cover rounded-full border border-[#efe6e2]" />
           <span className="font-serif text-sm font-semibold tracking-wide text-[#442a22]">Project Ahsaaz</span>
         </div>
         <span className="font-mono text-[9px] tracking-widest text-[#827470] uppercase">Empathy Awakening</span>
@@ -90,12 +90,12 @@ export default function PlainPreloader({ onComplete }: PlainPreloaderProps) {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className="w-28 h-28 md:w-36 md:h-36 rounded-2xl bg-white border border-[#efe6e2] p-2 flex items-center justify-center shadow-md relative z-10 overflow-hidden"
+            className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-white border border-[#efe6e2] p-2 flex items-center justify-center shadow-md relative z-10 overflow-hidden"
           >
             <img 
               src="/project-ahsaaz-logo.jpg" 
               alt="Project Ahsaaz Official Logo" 
-              className="w-full h-full object-contain"
+              className="w-full h-full object-cover rounded-full"
             />
           </motion.div>
         </div>
