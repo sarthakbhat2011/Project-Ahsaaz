@@ -204,7 +204,7 @@ export default function ParallaxSignup({ onSignupSuccess }: ParallaxSignupProps)
                 <div className="p-3.5 bg-[#fbf2ed] rounded-xl border border-[#efe6e2] flex items-start gap-2.5 text-[11px] text-[#827470]">
                   <Info size={16} className="text-[#9b451c] shrink-0 mt-0.5" />
                   <p className="leading-relaxed">
-                    <strong>Developer Directive:</strong> Upon submission, this form triggers a background email relay that instantly transmits your details and an AI reflection to <strong>contact@projectahsaaz.org</strong>.
+                    <strong>Developer Directive:</strong> Upon submission, this form triggers a background email relay that instantly transmits your details and an AI reflection to <strong>sarthakbhat2011@gmail.com</strong>.
                   </p>
                 </div>
 
