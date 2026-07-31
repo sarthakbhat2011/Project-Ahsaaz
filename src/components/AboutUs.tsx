@@ -25,7 +25,7 @@ export default function AboutUs() {
             Our Nationwide Vision
           </h2>
           <p className="font-sans text-sm md:text-base text-[#504441] leading-relaxed">
-            Project Ahsaaz is a student-led non-governmental organization (NGO) dedicated to rebuilding social bonds and delivering dignity to isolated elders across India, fostering national unity and a true sense of belongingness. We prepare high-dignity care packages, arrange instant medical queues, and hold unhurried, door-to-door listening assessments.
+            Project Ahsaaz is a student-led non-governmental organization (NGO) committed to building a more compassionate and connected India through community-driven action. Our work extends beyond hunger relief to include education support, senior citizen companionship, awareness campaigns, environmental responsibility, animal welfare, and youth-led volunteering. Through meaningful conversations, practical initiatives, and grassroots partnerships, we aim to inspire people to care for one another and create lasting social impact across communities nationwide.
           </p>
 
           <div className="pt-6">
@@ -81,12 +81,12 @@ export default function AboutUs() {
                 },
                 {
                   title: "Radical Hospitality",
-                  description: "Feeding is not charity; it is dining together. We serve food on high-quality sustainable tableware to restore dignity and break down the barrier of helper versus helped.",
+                  description: "We believe kindness is not measured by what we give but by how we make people feel. Every meal served, every conversation shared, every classroom visited, and every act of service is carried out with dignity, respect, and genuine human connection. Compassion is at the heart of every Project Ahsaaz initiative.",
                   icon: <Users size={20} className="text-[#9b451c]" />
                 },
                 {
                   title: "Absolute Transparency",
-                  description: "Every rupee donated is converted directly into fresh, whole raw ingredients and assessment surveys, verified by our open-source logs.",
+                  description: "Trust is the foundation of Project Ahsaaz. We are committed to maintaining complete transparency in our projects, partnerships, donations, and volunteer efforts by openly sharing our progress, activities, and the impact created within the communities we serve.",
                   icon: <Shield size={20} className="text-[#9b451c]" />
                 }
               ].map((v, i) => (

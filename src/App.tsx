@@ -19,6 +19,7 @@ import AboutUs from './components/AboutUs';
 import TerracottaVessel3D from './components/TerracottaVessel3D';
 import BreathingResonanceCircle from './components/BreathingResonanceCircle';
 import LocalityGuide from './components/LocalityGuide';
+import FutureInitiatives from './components/FutureInitiatives';
 
 const staggerContainerVariants = {
   hidden: { opacity: 0 },
@@ -852,7 +853,7 @@ export default function App() {
                               Material Sourcing
                             </h4>
                             <p className="text-xs text-[#504441] leading-relaxed">
-                              We curate biodegradable, zero-plastic serving materials like handcrafted clay bowls and organic linen. By prioritizing natural, traditional earthenware, we eliminate single-use plastics and serve community meals with environmental consciousness and deep respect.
+                              Every initiative begins with thoughtful preparation. We gather the essential resources required for each community project, whether it is food for hunger relief drives, educational supplies for children, awareness materials for public campaigns, care packages for senior citizens, or clean water bowls and food for community animals. Rather than focusing on one type of support, we responsibly source everything needed to serve people and communities with dignity, care, and transparency.
                             </p>
                           </div>
                           
@@ -884,6 +885,9 @@ export default function App() {
                             </p>
                           </div>
                         </div>
+
+                        {/* Our Future Initiatives Section */}
+                        <FutureInitiatives />
 
                         <div className="text-center pt-4">
                           <button
@@ -1173,6 +1177,9 @@ export default function App() {
 
                       {/* Dynamic Interactive BentoGrid Component */}
                       <BentoGrid />
+
+                      {/* Our Future Initiatives Section */}
+                      <FutureInitiatives />
                     </motion.div>
                   </motion.div>
                 )}

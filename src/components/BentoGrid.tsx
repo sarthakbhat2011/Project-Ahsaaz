@@ -172,7 +172,7 @@ export default function BentoGrid() {
               Starvation Relief &amp; Care (Pilot Prep)
             </h3>
             <p className="font-sans text-sm text-[#504441] max-w-xl leading-relaxed">
-              We are preparing our first local compassion-sourcing network across various Indian community circles. Instead of cold, transactional handouts, we are sourcing sustainable earthenware tableware and clay serving vessels to serve hot, nutrition-rich meals with dedicated companion circles.
+              Project Ahsaaz is currently preparing for its first community outreach initiatives. During this pilot phase, we are building our volunteer network, planning food distribution drives, identifying local community needs, and establishing meaningful partnerships. While hunger relief will be one of our first initiatives, our long-term vision is to serve communities through compassion, education, awareness, and dedicated volunteer action.
             </p>
           </div>
 
@@ -194,9 +194,9 @@ export default function BentoGrid() {
             
             {/* Impact Calculation Info */}
             <div className="mt-4 pt-4 border-t border-[#e9e1dc]/60 space-y-2">
-              <p className="text-xs font-mono text-[#827470] uppercase font-semibold">Your Projected Companion Impact:</p>
+              <p className="text-xs font-mono text-[#827470] uppercase font-semibold">Your Projected Impact:</p>
               <p className="text-sm text-[#442a22] font-medium leading-relaxed italic">
-                "{getPledgeImpactMessage()}"
+                Every hour you contribute helps strengthen Project Ahsaaz's mission. Your time supports community outreach, food distribution drives, volunteer initiatives, educational support, awareness campaigns, and meaningful acts of compassion. Together, every contribution—big or small—brings us closer to building kinder and more connected communities.
               </p>
             </div>
           </div>
