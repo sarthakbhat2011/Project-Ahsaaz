@@ -2,7 +2,11 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Flower2, BookOpen, Utensils, Sparkles, Dog, Users, ArrowUpRight } from 'lucide-react';
 
-export default function FutureInitiatives() {
+interface FutureInitiativesProps {
+  onExplore?: (initiativeId?: string) => void;
+}
+
+export default function FutureInitiatives({ onExplore }: FutureInitiativesProps) {
   const initiatives = [
     {
       id: 'seniors',
@@ -92,7 +96,8 @@ export default function FutureInitiatives() {
               viewport={{ once: true }}
               transition={{ delay: idx * 0.08, duration: 0.5 }}
               whileHover={{ y: -4 }}
-              className="bg-white border border-[#efe6e2] rounded-3xl p-6 md:p-8 flex flex-col justify-between hover:shadow-xl hover:border-[#fe9162]/40 transition-all duration-300 relative group overflow-hidden"
+              onClick={() => onExplore && onExplore(item.id)}
+              className="bg-white border border-[#efe6e2] rounded-3xl p-6 md:p-8 flex flex-col justify-between hover:shadow-xl hover:border-[#fe9162]/40 transition-all duration-300 relative group overflow-hidden cursor-pointer"
             >
               {/* Subtle Corner Gradient Aura */}
               <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${item.gradient} rounded-bl-full group-hover:scale-125 transition-transform duration-500 pointer-events-none`} />
@@ -121,7 +126,7 @@ export default function FutureInitiatives() {
               <div className="mt-6 pt-4 border-t border-[#efe6e2]/60 flex justify-between items-center text-xs font-mono text-[#827470]">
                 <span>Ahsaaz Umbrella Pillar</span>
                 <span className="text-[#9b451c] group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 font-bold">
-                  Explore <ArrowUpRight size={12} />
+                  Explore Details <ArrowUpRight size={12} />
                 </span>
               </div>
             </motion.div>

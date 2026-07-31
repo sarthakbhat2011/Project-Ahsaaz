@@ -58,7 +58,7 @@ export default function ServerMonitor() {
                 <Terminal className="text-[#fe9162] animate-pulse" size={18} />
                 <div>
                   <h4 className="font-mono text-xs font-bold text-white tracking-wider uppercase">SMTP &amp; API Monitor</h4>
-                  <p className="text-[10px] text-[#827470]">Tracking sarthakbhat2011@gmail.com triggers</p>
+                  <p className="text-[10px] text-[#827470]">Tracking contact@projectahsaaz.org triggers</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
@@ -180,7 +180,7 @@ export default function ServerMonitor() {
             <div className="p-3 bg-white/5 rounded-xl border border-white/5 text-[10px] text-[#827470] leading-relaxed flex items-start gap-2">
               <Layers size={16} className="text-[#fe9162] shrink-0 mt-0.5" />
               <p>
-                <strong>Developer Inbox Loop:</strong> Project Ahsaaz automatically packages volunteer credentials, coordinates, and custom Gemini-generated reflections into an HTML email template and routes it to <strong>sarthakbhat2011@gmail.com</strong>.
+                <strong>Developer Inbox Loop:</strong> Project Ahsaaz automatically packages volunteer credentials, coordinates, and custom Gemini-generated reflections into an HTML email template and routes it to <strong>contact@projectahsaaz.org</strong>.
               </p>
             </div>
           </motion.div>

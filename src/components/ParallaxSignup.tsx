@@ -157,7 +157,7 @@ export default function ParallaxSignup({ onSignupSuccess }: ParallaxSignupProps)
                       </div>
                       <input
                         type="text"
-                        placeholder="Sarthak Bhat"
+                        placeholder="E.g., Aarav Sharma"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         className="w-full bg-[#fff8f5] rounded-xl border border-[#d4c3be] py-3 pl-11 pr-4 text-sm text-[#1e1b18] focus:border-[#9b451c] focus:ring-2 focus:ring-[#ffdbd0] outline-none transition-all placeholder-[#827470]/40"
@@ -175,7 +175,7 @@ export default function ParallaxSignup({ onSignupSuccess }: ParallaxSignupProps)
                       </div>
                       <input
                         type="email"
-                        placeholder="sarthakbhat2011@gmail.com"
+                        placeholder="aarav.sharma@example.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="w-full bg-[#fff8f5] rounded-xl border border-[#d4c3be] py-3 pl-11 pr-4 text-sm text-[#1e1b18] focus:border-[#9b451c] focus:ring-2 focus:ring-[#ffdbd0] outline-none transition-all placeholder-[#827470]/40"
@@ -204,7 +204,7 @@ export default function ParallaxSignup({ onSignupSuccess }: ParallaxSignupProps)
                 <div className="p-3.5 bg-[#fbf2ed] rounded-xl border border-[#efe6e2] flex items-start gap-2.5 text-[11px] text-[#827470]">
                   <Info size={16} className="text-[#9b451c] shrink-0 mt-0.5" />
                   <p className="leading-relaxed">
-                    <strong>Developer Directive:</strong> Upon submission, this form triggers a background email relay that instantly transmits your details and an AI reflection to <strong>sarthakbhat2011@gmail.com</strong>.
+                    <strong>Developer Directive:</strong> Upon submission, this form triggers a background email relay that instantly transmits your details and an AI reflection to <strong>contact@projectahsaaz.org</strong>.
                   </p>
                 </div>
 
@@ -243,7 +243,7 @@ export default function ParallaxSignup({ onSignupSuccess }: ParallaxSignupProps)
                   Seed Successfully Planted!
                 </h2>
                 <p className="font-sans text-xs md:text-sm text-[#827470]">
-                  A beautiful notification containing your credentials has been drafted and securely dispatched to the administrator inbox at: <span className="text-[#9b451c] font-semibold">sarthakbhat2011@gmail.com</span>
+                  A beautiful notification containing your credentials has been drafted and securely dispatched to the administrator inbox at: <span className="text-[#9b451c] font-semibold">contact@projectahsaaz.org</span>
                 </p>
               </div>
 

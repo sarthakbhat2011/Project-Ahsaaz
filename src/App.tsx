@@ -20,6 +20,7 @@ import TerracottaVessel3D from './components/TerracottaVessel3D';
 import BreathingResonanceCircle from './components/BreathingResonanceCircle';
 import LocalityGuide from './components/LocalityGuide';
 import FutureInitiatives from './components/FutureInitiatives';
+import InitiativesDetail from './components/InitiativesDetail';
 
 const staggerContainerVariants = {
   hidden: { opacity: 0 },
@@ -50,7 +51,7 @@ export default function App() {
   const [hasEnteredSite, setHasEnteredSite] = useState(false);
   const [signups, setSignups] = useState<Signup[]>([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<'home' | 'philosophy' | 'what-we-do' | 'about' | 'impact' | 'join'>('home');
+  const [activeTab, setActiveTab] = useState<'home' | 'philosophy' | 'what-we-do' | 'initiatives' | 'about' | 'impact' | 'join'>('home');
   
   // Custom Sowing Pledge Modal State (Hours of unhurried monthly Care)
   const [donationModalOpen, setDonationModalOpen] = useState(false);
@@ -588,9 +589,10 @@ export default function App() {
                     { id: 'home', label: 'Home', num: '01' },
                     { id: 'philosophy', label: 'Philosophy', num: '02' },
                     { id: 'what-we-do', label: 'What We Do', num: '03' },
-                    { id: 'about', label: 'About NGO', num: '04' },
-                    { id: 'impact', label: 'Seed Grove', num: '05' },
-                    { id: 'join', label: 'Join Us', num: '06' }
+                    { id: 'initiatives', label: 'Initiatives', num: '04' },
+                    { id: 'about', label: 'About NGO', num: '05' },
+                    { id: 'impact', label: 'Seed Grove', num: '06' },
+                    { id: 'join', label: 'Join Us', num: '07' }
                   ].map((tab) => {
                     const isActive = activeTab === tab.id;
                     return (
@@ -660,6 +662,7 @@ export default function App() {
                       { id: 'home', label: 'Home' },
                       { id: 'philosophy', label: 'Philosophy' },
                       { id: 'what-we-do', label: 'What We Do (Sandbox)' },
+                      { id: 'initiatives', label: 'Our Initiatives Directory' },
                       { id: 'about', label: 'About NGO & Games' },
                       { id: 'impact', label: 'Seed Grove Garden' },
                       { id: 'join', label: 'Join Us' }
@@ -889,7 +892,7 @@ export default function App() {
                         </div>
 
                         {/* Our Future Initiatives Section */}
-                        <FutureInitiatives />
+                        <FutureInitiatives onExplore={() => { setActiveTab('initiatives'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
 
                         <div className="text-center pt-4">
                           <button
@@ -1181,8 +1184,22 @@ export default function App() {
                       <BentoGrid />
 
                       {/* Our Future Initiatives Section */}
-                      <FutureInitiatives />
+                      <FutureInitiatives onExplore={() => { setActiveTab('initiatives'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
                     </motion.div>
+                  </motion.div>
+                )}
+
+                {/* ==================== OUR INITIATIVES DIRECTORY TAB ==================== */}
+                {activeTab === 'initiatives' && (
+                  <motion.div
+                    key="tab-initiatives"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="w-full"
+                  >
+                    <InitiativesDetail onJoinClick={() => { setActiveTab('join'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
                   </motion.div>
                 )}
 
