@@ -11,47 +11,49 @@ export default function CursorGlow() {
     const isTouch = window.matchMedia('(pointer: coarse)').matches;
     if (isTouch) return;
 
-    const handleMouseMove = (e: MouseEvent) => {
-      targetRef.current = { x: e.clientX, y: e.clientY };
-      if (!active) setActive(true);
-    };
+    // Smooth Lerping Loop for the Warm Sanctuary Glow Aura (Pauses automatically when idle)
+    let animationFrameId: number | null = null;
+    let isRunning = false;
 
-    const handleMouseLeave = () => {
-      setActive(false);
-    };
-
-    const handleMouseEnter = () => {
-      setActive(true);
-    };
-
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    document.addEventListener('mouseleave', handleMouseLeave);
-    document.addEventListener('mouseenter', handleMouseEnter);
-
-    // Smooth Lerping Loop for the Warm Sanctuary Glow Aura
-    let animationFrameId: number;
     const updateGlow = () => {
       const dx = targetRef.current.x - positionRef.current.x;
       const dy = targetRef.current.y - positionRef.current.y;
       
-      // Smooth lerp (0.12 speed for fluid organic lag)
-      positionRef.current.x += dx * 0.12;
-      positionRef.current.y += dy * 0.12;
+      // Smooth lerp (0.15 speed for fluid organic lag)
+      positionRef.current.x += dx * 0.15;
+      positionRef.current.y += dy * 0.15;
 
       if (glowRef.current) {
         glowRef.current.style.transform = `translate3d(${positionRef.current.x}px, ${positionRef.current.y}px, 0)`;
       }
 
-      animationFrameId = requestAnimationFrame(updateGlow);
+      if (Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) {
+        animationFrameId = requestAnimationFrame(updateGlow);
+      } else {
+        isRunning = false;
+        animationFrameId = null;
+      }
     };
 
-    updateGlow();
+    const startGlowLoop = () => {
+      if (!isRunning) {
+        isRunning = true;
+        animationFrameId = requestAnimationFrame(updateGlow);
+      }
+    };
+
+    const handleMouseMoveOptimized = (e: MouseEvent) => {
+      targetRef.current = { x: e.clientX, y: e.clientY };
+      if (!active) setActive(true);
+      startGlowLoop();
+    };
+
+    window.addEventListener('mousemove', handleMouseMoveOptimized, { passive: true });
+    startGlowLoop();
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseleave', handleMouseLeave);
-      document.removeEventListener('mouseenter', handleMouseEnter);
-      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('mousemove', handleMouseMoveOptimized);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
   }, [active]);
 

@@ -717,11 +717,13 @@ export default function App() {
                             key={idx}
                             src={bg.url}
                             alt={bg.alt}
+                            loading="lazy"
+                            decoding="async"
                             referrerPolicy="no-referrer"
-                            className={`absolute inset-0 w-full h-full object-cover mix-blend-overlay blur-[0.5px] transition-all duration-1000 ease-in-out transform ${
+                            className={`absolute inset-0 w-full h-full object-cover mix-blend-overlay transition-opacity duration-1000 ease-in-out ${
                               idx === currentHeroBgIndex 
-                                ? "opacity-[0.6] scale-100" 
-                                : "opacity-0 scale-105"
+                                ? "opacity-[0.55]" 
+                                : "opacity-0 pointer-events-none"
                             }`}
                           />
                         ))}

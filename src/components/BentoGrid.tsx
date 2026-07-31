@@ -150,6 +150,8 @@ export default function BentoGrid() {
           <img 
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuB140qtVjfSBDuq8zaJInJEnUf-kuTfLOl5L06KhG7oh20R-798iUxZuxHas1jwmCHVOxd7bd5wWqO_rIhizCppQ-XeC7F9d9YInD_OyU6M7gY1zS3wpjJmGegFu4kJEweLFZYKOo5oDl7hoFjacY4c7e7IuX4D7u7vXZP8crxScdpZWlZCtVBsd20eG2UXcT68M6v934MTrnObpP5g3dri19qmysRqkZEispLxHR5gLd44_VaSIZtiH4MKpDlo0pBLJSdgaF6c0qI"
             alt="Warm dignified meal distribution in India"
+            loading="lazy"
+            decoding="async"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover opacity-[0.05] group-hover:opacity-[0.09] transition-opacity duration-700"
           />

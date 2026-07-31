@@ -52,13 +52,14 @@ html {
 }
 
 @utility glass-glossy {
-  backdrop-filter: blur(20px) saturate(220%);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 245, 240, 0.72) 100%);
+  backdrop-filter: blur(10px) saturate(160%);
+  -webkit-backdrop-filter: blur(10px) saturate(160%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 245, 240, 0.8) 100%);
   border: 1px solid rgba(255, 255, 255, 0.8);
   box-shadow: 
-    0 8px 32px 0 rgba(155, 69, 28, 0.12),
+    0 8px 32px 0 rgba(155, 69, 28, 0.08),
     inset 0 0 15px 0 rgba(255, 255, 255, 0.6),
-    0 0 20px 2px rgba(254, 145, 98, 0.08);
+    0 0 20px 2px rgba(254, 145, 98, 0.05);
   position: relative;
 }
 
@@ -76,8 +77,8 @@ html {
 }
 
 @keyframes sparkle-pulse {
-  0%, 100% { opacity: 0.2; transform: scale(0.9) rotate(0deg); filter: drop-shadow(0 0 2px rgba(254, 145, 98, 0.2)); }
-  50% { opacity: 1.0; transform: scale(1.15) rotate(180deg); filter: drop-shadow(0 0 8px rgba(254, 145, 98, 0.8)); }
+  0%, 100% { opacity: 0.2; transform: scale(0.9) rotate(0deg); }
+  50% { opacity: 1.0; transform: scale(1.15) rotate(180deg); }
 }
 
 @utility sparkling-star {
@@ -87,24 +88,20 @@ html {
 @utility bg-shiny-retro {
   background: linear-gradient(135deg, rgba(255, 248, 245, 0.95) 0%, rgba(255, 219, 206, 0.85) 25%, rgba(254, 145, 98, 0.7) 50%, rgba(155, 69, 28, 0.8) 75%, rgba(255, 248, 245, 0.95) 100%);
   background-size: 300% 300%;
-  animation: shine-flow 8s ease infinite;
+  animation: shine-flow 12s ease infinite;
 }
 
-/* GPU Rendering Optimizations to eliminate rendering stutter */
+/* Highly Optimized GPU Layer Rules (Prevents VRAM bloat and frame drops) */
 .animate-pulse,
 .animate-ping,
 .animate-bounce,
-.animate-spin,
-.animate-pulse-slow {
-  will-change: transform, opacity;
-  transform: translate3d(0, 0, 0);
+.animate-spin {
+  transform: translateZ(0);
   backface-visibility: hidden;
 }
 
-.glass-glossy,
-[class*="backdrop-blur"] {
-  will-change: backdrop-filter, transform;
-  transform: translate3d(0, 0, 0);
+.glass-glossy {
+  transform: translateZ(0);
   backface-visibility: hidden;
 }
 

@@ -267,7 +267,7 @@ export default function TerracottaVessel3D() {
       clickParticleGeo.attributes.position.needsUpdate = true;
     };
 
-    // 8. Interactive Pointer/Touch Motion Events (Friction mechanic)
+    // 8. Interactive Pointer/Touch Motion Events (Friction mechanic - Throttled for butter-smooth FPS)
     const handlePointerMove = (e: PointerEvent) => {
       const rect = container.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
@@ -277,13 +277,13 @@ export default function TerracottaVessel3D() {
       mouseRef.current.targetY = Math.max(-1.5, Math.min(1.5, y));
       mouseRef.current.hoverActive = true;
 
-      // Friction heat calculation: more sweeping movements generate more warmth
+      // Friction heat calculation: modify ref directly to prevent high-frequency React state re-renders
       const dx = x - mouseRef.current.lastX;
       const dy = y - mouseRef.current.lastY;
       const speed = Math.sqrt(dx * dx + dy * dy);
 
       if (speed > 0.005) {
-        setWarmthLevel((prev) => Math.min(100, prev + speed * 135));
+        warmthRef.current = Math.min(100, warmthRef.current + speed * 120);
       }
 
       mouseRef.current.lastX = x;
@@ -317,7 +317,7 @@ export default function TerracottaVessel3D() {
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
-      if (!isElementVisible) return;
+      if (!isElementVisible || document.hidden) return;
 
       const elapsedTime = clock.getElapsedTime();
       const currentWarmth = warmthRef.current; // Real-time warmth value
@@ -453,15 +453,15 @@ export default function TerracottaVessel3D() {
     };
   }, []);
 
-  // Organic heat dissipation over time
+  // Organic heat dissipation over time & smooth UI sync
   useEffect(() => {
     const interval = setInterval(() => {
-      setWarmthLevel((prev) => {
-        // Slow cooling: cools quicker if it's very hot
-        const step = prev > 75 ? 3 : 1;
-        return Math.max(30, prev - step);
-      });
-    }, 3000);
+      const current = warmthRef.current;
+      const step = current > 75 ? 3 : 1;
+      const next = Math.max(30, current - step);
+      warmthRef.current = next;
+      setWarmthLevel(Math.round(next));
+    }, 1000);
     return () => clearInterval(interval);
   }, []);
 

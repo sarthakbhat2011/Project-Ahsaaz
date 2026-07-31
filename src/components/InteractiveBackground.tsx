@@ -78,8 +78,13 @@ export default function InteractiveBackground() {
       });
     }
 
-    // Animation Loop
+    // Animation Loop with Page Visibility Guard & High-Performance Canvas Rendering
     const animate = () => {
+      if (document.hidden) {
+        animationFrameId = requestAnimationFrame(animate);
+        return;
+      }
+
       ctx.clearRect(0, 0, width, height);
 
       const mouse = mouseRef.current;
@@ -88,7 +93,8 @@ export default function InteractiveBackground() {
         mouse.y += (mouse.targetY - mouse.y) * 0.1;
       }
 
-      particles.forEach((p) => {
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
         // Continuous movement
         p.y += p.vy * p.speedModifier;
         p.x += p.vx * p.speedModifier;
@@ -107,35 +113,29 @@ export default function InteractiveBackground() {
           const dx = p.x - mouse.x;
           const dy = p.y - mouse.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          const maxDist = 160;
+          const maxDist = 140;
 
           if (dist < maxDist) {
-            const force = (maxDist - dist) / maxDist; // Stronger force as distance gets smaller
-            const forceX = (dx / dist) * force * 1.8;
-            const forceY = (dy / dist) * force * 1.8;
-
-            p.x += forceX;
-            p.y += forceY;
+            const force = (maxDist - dist) / maxDist;
+            p.x += (dx / dist) * force * 1.5;
+            p.y += (dy / dist) * force * 1.5;
           }
         }
 
-        // Draw elegant organic seed/leaf shape
+        // Draw clean organic seed shape without expensive shadowBlur
         ctx.save();
         ctx.translate(p.x, p.y);
         ctx.rotate(p.angle);
         ctx.beginPath();
         
-        // Draw double-quadratic curved seed
         ctx.moveTo(0, -p.size * 1.6);
         ctx.quadraticCurveTo(p.size, 0, 0, p.size * 1.6);
         ctx.quadraticCurveTo(-p.size, 0, 0, -p.size * 1.6);
         
         ctx.fillStyle = `${p.color}${p.alpha})`;
-        ctx.shadowColor = '#fe9162';
-        ctx.shadowBlur = 4;
         ctx.fill();
         ctx.restore();
-      });
+      }
 
       animationFrameId = requestAnimationFrame(animate);
     };
