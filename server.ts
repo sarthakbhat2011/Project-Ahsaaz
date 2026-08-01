@@ -373,42 +373,42 @@ Write a short, highly personalized, and deeply moving 2-3 sentence "Ahsaaz Refle
     const recipientEmail = "sarthakbhat2011@gmail.com";
     const subject = `[Project Ahsaaz] New Empathetic Sign-up: ${escapedName}`;
     const htmlContent = `
-      <div style="font-family: 'Inter', sans-serif; background-color: #fff8f5; color: #1e1b18; padding: 40px; border-radius: 16px; max-width: 600px; margin: 0 auto; border: 1px solid #e9e1dc; box-shadow: 0 10px 30px rgba(68, 42, 34, 0.05);">
-        <div style="text-align: center; margin-bottom: 30px;">
-          <h1 style="font-family: 'Source Serif 4', Georgia, serif; color: #442a22; margin: 0 0 10px 0; font-size: 28px; font-weight: 700; letter-spacing: -0.01em;">Project Ahsaaz</h1>
-          <p style="font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; color: #9b451c; margin: 0; font-weight: 600;">Empathy in Action &bull; Hunger in Retreat</p>
+      <div style="font-family: 'Inter', sans-serif; background-color: #fff8f5; color: #1e1b18; padding: 16px; border-radius: 16px; max-width: 100%; box-sizing: border-box; margin: 0 auto; border: 1px solid #e9e1dc; box-shadow: 0 10px 30px rgba(68, 42, 34, 0.05); word-break: break-all; overflow-wrap: anywhere;">
+        <div style="text-align: center; margin-bottom: 20px;">
+          <h1 style="font-family: 'Source Serif 4', Georgia, serif; color: #442a22; margin: 0 0 6px 0; font-size: 24px; font-weight: 700; letter-spacing: -0.01em;">Project Ahsaaz</h1>
+          <p style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: #9b451c; margin: 0; font-weight: 600;">Empathy in Action &bull; Hunger in Retreat</p>
         </div>
         
-        <div style="background-color: #ffffff; padding: 24px; border-radius: 12px; margin-bottom: 24px; border: 1px solid rgba(130, 116, 112, 0.15);">
-          <h2 style="font-family: 'Source Serif 4', Georgia, serif; color: #442a22; margin-top: 0; margin-bottom: 16px; font-size: 20px; border-bottom: 1px solid #f5ece7; padding-bottom: 8px;">Volunteer Registration</h2>
+        <div style="background-color: #ffffff; padding: 16px; border-radius: 12px; margin-bottom: 16px; border: 1px solid rgba(130, 116, 112, 0.15); box-sizing: border-box; max-width: 100%;">
+          <h2 style="font-family: 'Source Serif 4', Georgia, serif; color: #442a22; margin-top: 0; margin-bottom: 12px; font-size: 18px; border-bottom: 1px solid #f5ece7; padding-bottom: 6px;">Volunteer Registration</h2>
           
-          <table style="width: 100%; border-collapse: collapse;">
+          <table style="width: 100%; border-collapse: collapse; table-layout: fixed; word-break: break-all; overflow-wrap: anywhere;">
             <tr>
-              <td style="padding: 6px 0; font-weight: 600; color: #504441; font-size: 14px; width: 30%;">Full Name:</td>
-              <td style="padding: 6px 0; color: #1e1b18; font-size: 14px;">${escapedName}</td>
+              <td style="padding: 6px 0; font-weight: 600; color: #504441; font-size: 13px; width: 35%; word-break: break-all;">Full Name:</td>
+              <td style="padding: 6px 0; color: #1e1b18; font-size: 13px; width: 65%; word-break: break-all; overflow-wrap: anywhere;">${escapedName}</td>
             </tr>
             <tr>
-              <td style="padding: 6px 0; font-weight: 600; color: #504441; font-size: 14px;">Email:</td>
-              <td style="padding: 6px 0; color: #1e1b18; font-size: 14px;"><a href="mailto:${escapedEmail}" style="color: #9b451c; text-decoration: none;">${escapedEmail}</a></td>
+              <td style="padding: 6px 0; font-weight: 600; color: #504441; font-size: 13px;">Email:</td>
+              <td style="padding: 6px 0; color: #1e1b18; font-size: 13px; word-break: break-all; overflow-wrap: anywhere;"><a href="mailto:${escapedEmail}" style="color: #9b451c; text-decoration: none; word-break: break-all; overflow-wrap: anywhere;">${escapedEmail}</a></td>
             </tr>
             <tr>
-              <td style="padding: 6px 0; font-weight: 600; color: #504441; font-size: 14px;">Registered at:</td>
-              <td style="padding: 6px 0; color: #1e1b18; font-size: 14px;">${new Date(timestamp).toLocaleString()}</td>
+              <td style="padding: 6px 0; font-weight: 600; color: #504441; font-size: 13px;">Registered at:</td>
+              <td style="padding: 6px 0; color: #1e1b18; font-size: 13px; word-break: break-all;">${new Date(timestamp).toLocaleString()}</td>
             </tr>
           </table>
         </div>
 
-        <div style="background-color: #fbf2ed; padding: 24px; border-radius: 12px; margin-bottom: 24px; border-left: 4px solid #9b451c;">
-          <h3 style="margin-top: 0; color: #9b451c; font-size: 15px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700;">Statement of Empathy</h3>
-          <p style="font-style: italic; color: #504441; font-size: 15px; line-height: 1.6; margin: 0;">"${escapedMessage}"</p>
+        <div style="background-color: #fbf2ed; padding: 16px; border-radius: 12px; margin-bottom: 16px; border-left: 4px solid #9b451c; box-sizing: border-box;">
+          <h3 style="margin-top: 0; color: #9b451c; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700;">Statement of Empathy</h3>
+          <p style="font-style: italic; color: #504441; font-size: 13px; line-height: 1.5; margin: 0; word-break: break-words;">"${escapedMessage}"</p>
         </div>
 
-        <div style="background-color: #fff8f5; border: 1px dashed #d4c3be; padding: 24px; border-radius: 12px; margin-bottom: 24px;">
-          <h3 style="margin-top: 0; color: #442a22; font-family: 'Source Serif 4', Georgia, serif; font-size: 16px; font-weight: 600;">Personalized AI Ahsaaz Reflection</h3>
-          <p style="color: #504441; font-size: 14px; line-height: 1.6; margin: 0;">${escapedReflection}</p>
+        <div style="background-color: #fff8f5; border: 1px dashed #d4c3be; padding: 16px; border-radius: 12px; margin-bottom: 16px; box-sizing: border-box;">
+          <h3 style="margin-top: 0; color: #442a22; font-family: 'Source Serif 4', Georgia, serif; font-size: 15px; font-weight: 600;">Personalized AI Ahsaaz Reflection</h3>
+          <p style="color: #504441; font-size: 13px; line-height: 1.5; margin: 0; word-break: break-words;">${escapedReflection}</p>
         </div>
 
-        <div style="text-align: center; border-top: 1px solid #efe6e2; padding-top: 20px; font-size: 12px; color: #827470;">
+        <div style="text-align: center; border-top: 1px solid #efe6e2; padding-top: 16px; font-size: 11px; color: #827470;">
           <p style="margin: 0 0 4px 0;">This email was automatically triggered by the Project Ahsaaz Platform.</p>
           <p style="margin: 0;">Built with Human Dignity &bull; Dedicated to Hunger & Isolation Relief</p>
         </div>
@@ -448,25 +448,23 @@ Write a short, highly personalized, and deeply moving 2-3 sentence "Ahsaaz Refle
       } else {
         emailError = "SMTP credentials not provided in .env (SMTP_USER and SMTP_PASS are missing). Running in high-fidelity sandbox mode.";
         console.log("-----------------------------------------");
-        console.log(`[EMULATED EMAIL TRANSMISSION]`);
-        console.log(`To: ${recipientEmail}`);
+        console.log(`[Developer Inbox Simulator] Email to ${recipientEmail}:`);
         console.log(`Subject: ${subject}`);
-        console.log(`Body:\n${htmlContent}`);
         console.log("-----------------------------------------");
       }
     } catch (err: any) {
-      console.error("Nodemailer failed to transmit email:", err);
-      emailError = err.message || "Failed to transmit message through active SMTP transporter.";
+      console.error("Nodemailer transmission error:", err);
+      emailError = err.message || "Failed to transmit via SMTP server.";
     }
 
-    // Save copy to sent emails for developer preview UI
+    // 5. Store sent email in sent-emails log (Developer Monitor)
     const sentEmails = readSentEmails();
     sentEmails.unshift({
-      id: Date.now().toString(),
+      id: "email-" + Date.now() + "-" + Math.random().toString(36).substr(2, 4),
       to: recipientEmail,
-      subject,
+      subject: subject,
       html: htmlContent,
-      timestamp,
+      timestamp: timestamp,
       sentSuccessfully: emailSent,
       errorMsg: emailError,
     });
@@ -480,6 +478,115 @@ Write a short, highly personalized, and deeply moving 2-3 sentence "Ahsaaz Refle
       signup: { name, message: signupMsg, reflection, timestamp }, // exclude email here too
       reflection,
     });
+  });
+
+  // API Route: Handle Dignity Plate Sanitized Meal Registration
+  app.post("/api/plate-signup", csrfCheck, rateLimiter, async (req, res) => {
+    const { name, grain, stew, blessing } = req.body;
+
+    if (!name || typeof name !== "string" || name.trim().length === 0) {
+      return res.status(400).json({ error: "Sponsor / Volunteer Name is required." });
+    }
+
+    const escapedName = escapeHtml(name.trim());
+    const escapedGrain = escapeHtml(grain || "Aromatic Basmati Rice");
+    const escapedStew = escapeHtml(stew || "Traditional Yellow Lentil Dal");
+    const escapedBlessing = escapeHtml(blessing || "Dignity is your eternal birthright.");
+    const timestamp = new Date().toISOString();
+
+    const recipientEmail = "sarthakbhat2011@gmail.com";
+    const subject = `[Project Ahsaaz] Dignity Plate Meal Sanitized: ${escapedName}`;
+
+    const htmlContent = `
+      <div style="font-family: 'Inter', sans-serif; background-color: #fff8f5; color: #1e1b18; padding: 16px; border-radius: 16px; max-width: 100%; box-sizing: border-box; margin: 0 auto; border: 1px solid #e9e1dc; box-shadow: 0 10px 30px rgba(68, 42, 34, 0.05); word-break: break-all; overflow-wrap: anywhere;">
+        <div style="text-align: center; margin-bottom: 20px;">
+          <h1 style="font-family: 'Source Serif 4', Georgia, serif; color: #442a22; margin: 0 0 6px 0; font-size: 24px; font-weight: 700; letter-spacing: -0.01em;">Project Ahsaaz</h1>
+          <p style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: #9b451c; margin: 0; font-weight: 600;">Dignity Plate Meal Registration &bull; Sourcing Simulator</p>
+        </div>
+        
+        <div style="background-color: #ffffff; padding: 16px; border-radius: 12px; margin-bottom: 16px; border: 1px solid rgba(130, 116, 112, 0.15); box-sizing: border-box; max-width: 100%;">
+          <h2 style="font-family: 'Source Serif 4', Georgia, serif; color: #442a22; margin-top: 0; margin-bottom: 12px; font-size: 18px; border-bottom: 1px solid #f5ece7; padding-bottom: 6px;">Dignity Plate Customization Log</h2>
+          
+          <table style="width: 100%; border-collapse: collapse; table-layout: fixed; word-break: break-all; overflow-wrap: anywhere;">
+            <tr>
+              <td style="padding: 6px 0; font-weight: 600; color: #504441; font-size: 13px; width: 35%; word-break: break-all;">Volunteer/Sponsor:</td>
+              <td style="padding: 6px 0; color: #1e1b18; font-size: 13px; width: 65%; word-break: break-all; font-weight: 700;">${escapedName}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; font-weight: 600; color: #504441; font-size: 13px;">Grain Base:</td>
+              <td style="padding: 6px 0; color: #1e1b18; font-size: 13px; word-break: break-all;">${escapedGrain}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; font-weight: 600; color: #504441; font-size: 13px;">Entrée Choice:</td>
+              <td style="padding: 6px 0; color: #1e1b18; font-size: 13px; word-break: break-all;">${escapedStew}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; font-weight: 600; color: #504441; font-size: 13px;">Stenciled Note:</td>
+              <td style="padding: 6px 0; color: #9b451c; font-size: 13px; font-style: italic; word-break: break-words;">"${escapedBlessing}"</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; font-weight: 600; color: #504441; font-size: 13px;">Packed & Sanitized At:</td>
+              <td style="padding: 6px 0; color: #1e1b18; font-size: 13px; word-break: break-all;">${new Date(timestamp).toLocaleString()}</td>
+            </tr>
+          </table>
+        </div>
+
+        <div style="background-color: #fbf2ed; padding: 16px; border-radius: 12px; margin-bottom: 16px; border-left: 4px solid #9b451c; box-sizing: border-box;">
+          <h3 style="margin-top: 0; color: #9b451c; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700;">Status</h3>
+          <p style="color: #504441; font-size: 13px; margin: 0;">Meal packed in eco-friendly earthenware kit and dispatched for local elder delivery queue.</p>
+        </div>
+
+        <div style="text-align: center; border-top: 1px solid #efe6e2; padding-top: 16px; font-size: 11px; color: #827470;">
+          <p style="margin: 0 0 4px 0;">This registration was recorded by the Developer Inbox Loop.</p>
+          <p style="margin: 0;">Project Ahsaaz &bull; Unhurried Companioning & Meal Logistics</p>
+        </div>
+      </div>
+    `;
+
+    let emailSent = false;
+    let emailError = "";
+
+    try {
+      const smtpUser = process.env.SMTP_USER;
+      const smtpPass = process.env.SMTP_PASS;
+      const smtpHost = process.env.SMTP_HOST || "smtp.gmail.com";
+      const smtpPort = parseInt(process.env.SMTP_PORT || "587");
+
+      if (smtpUser && smtpPass) {
+        const transporter = nodemailer.createTransport({
+          host: smtpHost,
+          port: smtpPort,
+          secure: smtpPort === 465,
+          auth: { user: smtpUser, pass: smtpPass },
+        });
+
+        await transporter.sendMail({
+          from: `"Project Ahsaaz" <${smtpUser}>`,
+          to: recipientEmail,
+          subject: subject,
+          html: htmlContent,
+        });
+        emailSent = true;
+      } else {
+        emailError = "Sandbox Emulated mode (SMTP credentials not in .env). Logged to developer mailbox.";
+      }
+    } catch (err: any) {
+      emailError = err.message || "Failed to transmit via SMTP.";
+    }
+
+    const sentEmails = readSentEmails();
+    sentEmails.unshift({
+      id: "plate-" + Date.now() + "-" + Math.random().toString(36).substr(2, 4),
+      to: recipientEmail,
+      subject: subject,
+      html: htmlContent,
+      timestamp: timestamp,
+      sentSuccessfully: emailSent,
+      errorMsg: emailError,
+    });
+    writeSentEmails(sentEmails.slice(0, 50));
+
+    res.json({ success: true, name: escapedName });
   });
 
   // Vite development / production configuration

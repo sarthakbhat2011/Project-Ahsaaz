@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { 
   Sprout, Heart, ChevronRight, Menu, X, ArrowDown, ArrowRight,
   Landmark, Lightbulb, Compass, Users, Sparkles, Clock, Volume2, VolumeX,
-  Send, Leaf, MessageSquare, BookOpen, Quote, Sparkle, Trash2, Terminal, Pencil
+  Send, Leaf, MessageSquare, BookOpen, Quote, Sparkle, Trash2, Terminal, Pencil, Edit3, User
 } from 'lucide-react';
 import { Signup } from './types';
 
@@ -129,7 +129,16 @@ export default function App() {
   const [ideaTitle, setIdeaTitle] = useState('');
   const [ideaCategory, setIdeaCategory] = useState('Earthenware Crafting');
   const [ideaDesc, setIdeaDesc] = useState('');
-  const [customIdeas, setCustomIdeas] = useState<{ id: number; title: string; category: string; desc: string; sparkles: boolean; isUserCreated?: boolean }[]>(() => {
+  const [ideaAuthor, setIdeaAuthor] = useState(() => journalUsername || '');
+
+  // Editing custom idea state
+  const [editingIdeaId, setEditingIdeaId] = useState<number | null>(null);
+  const [editIdeaTitle, setEditIdeaTitle] = useState('');
+  const [editIdeaCategory, setEditIdeaCategory] = useState('Earthenware Crafting');
+  const [editIdeaDesc, setEditIdeaDesc] = useState('');
+  const [editIdeaAuthor, setEditIdeaAuthor] = useState('');
+
+  const [customIdeas, setCustomIdeas] = useState<{ id: number; title: string; category: string; desc: string; author?: string; sparkles: boolean; isUserCreated?: boolean }[]>(() => {
     const saved = localStorage.getItem('project_ahsaaz_custom_ideas_v2');
     if (saved) {
       try {
@@ -151,8 +160,8 @@ export default function App() {
       } catch (e) {}
     }
     return [
-      { id: 1, title: "Traditional Potter Alliance", category: "Earthenware Crafting", desc: "Collaborating with local clay artisans to handcraft biodegradable porridge bowls.", sparkles: true, isUserCreated: false },
-      { id: 2, title: "Elder Listening Time-Banking", category: "Doorstep Time-Banking", desc: "A program where neighborhood youth log quiet conversation hours in exchange for ancestral stories.", sparkles: false, isUserCreated: false }
+      { id: 1, title: "Traditional Potter Alliance", category: "Earthenware Crafting", desc: "Collaborating with local clay artisans to handcraft biodegradable porridge bowls.", author: "Traditional Potter Guild", sparkles: true, isUserCreated: false },
+      { id: 2, title: "Elder Listening Time-Banking", category: "Doorstep Time-Banking", desc: "A program where neighborhood youth log quiet conversation hours in exchange for ancestral stories.", author: "Community Care Circle", sparkles: false, isUserCreated: false }
     ];
   });
 
@@ -203,6 +212,33 @@ export default function App() {
       localStorage.setItem('project_ahsaaz_custom_ideas_v2', JSON.stringify(updated));
       return updated;
     });
+  };
+
+  const handleStartEditCustomIdea = (idea: any) => {
+    setEditingIdeaId(idea.id);
+    setEditIdeaTitle(idea.title);
+    setEditIdeaCategory(idea.category);
+    setEditIdeaDesc(idea.desc);
+    setEditIdeaAuthor(idea.author || ideaAuthor || 'Co-Creator');
+  };
+
+  const handleSaveEditedCustomIdea = (idToSave: number) => {
+    if (!editIdeaTitle.trim() || !editIdeaDesc.trim() || !editIdeaAuthor.trim()) {
+      alert("Idea title, description, and user name cannot be empty.");
+      return;
+    }
+    setCustomIdeas(prev => {
+      const updated = prev.map(item => item.id === idToSave ? {
+        ...item,
+        title: editIdeaTitle.trim(),
+        category: editIdeaCategory,
+        desc: editIdeaDesc.trim(),
+        author: editIdeaAuthor.trim()
+      } : item);
+      localStorage.setItem('project_ahsaaz_custom_ideas_v2', JSON.stringify(updated));
+      return updated;
+    });
+    setEditingIdeaId(null);
   };
 
   // Interactive Team Letter States (About Us page)
@@ -341,13 +377,17 @@ export default function App() {
   // Publish Idea in Sandbox Proposal Widget
   const handlePublishIdea = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!ideaTitle.trim() || !ideaDesc.trim()) return;
+    if (!ideaTitle.trim() || !ideaDesc.trim() || !ideaAuthor.trim()) {
+      alert("Please enter your name, idea title, and concept description.");
+      return;
+    }
 
     const newIdea = {
       id: Date.now(),
-      title: ideaTitle,
+      title: ideaTitle.trim(),
       category: ideaCategory,
-      desc: ideaDesc,
+      desc: ideaDesc.trim(),
+      author: ideaAuthor.trim(),
       sparkles: true,
       isUserCreated: true
     };
@@ -1264,6 +1304,18 @@ export default function App() {
 
                           <form onSubmit={handlePublishIdea} className="space-y-3 pt-2">
                             <div className="space-y-1">
+                              <label className="text-[9px] font-mono text-[#827470] uppercase">Your Name / Proposer Name</label>
+                              <input
+                                type="text"
+                                value={ideaAuthor}
+                                onChange={(e) => setIdeaAuthor(e.target.value)}
+                                placeholder="E.g., Meenu Bhat"
+                                className="w-full bg-white border border-[#d4c3be] rounded-xl px-3 py-2 text-xs outline-none focus:border-[#9b451c]"
+                                required
+                              />
+                            </div>
+
+                            <div className="space-y-1">
                               <label className="text-[9px] font-mono text-[#827470] uppercase">Idea Title</label>
                               <input
                                 type="text"
@@ -1312,36 +1364,102 @@ export default function App() {
                         {/* Interactive Board display */}
                         <div className="md:col-span-7 space-y-4">
                           <span className="text-[10px] font-mono text-[#827470] uppercase font-bold block border-b border-[#e9e1dc] pb-2">Active Co-Creative Sandbox Board</span>
-                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[360px] overflow-y-auto pr-1 scrollbar-thin">
+                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[400px] overflow-y-auto pr-1 scrollbar-thin">
                             {customIdeas.map((idea) => (
                               <motion.div
                                 key={idea.id}
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
-                                className="p-4 bg-white rounded-2xl border border-[#efe6e2] space-y-2 relative group/idea"
+                                className="p-4 bg-white rounded-2xl border border-[#efe6e2] space-y-2 relative group/idea shadow-xs"
                               >
-                                <div className="absolute top-2 right-2 flex items-center gap-1.5">
-                                  {idea.sparkles && (
-                                    <div className="text-amber-500">
-                                      <Sparkles size={12} className="animate-pulse" />
-                                    </div>
-                                  )}
-                                  {idea.isUserCreated && (
-                                    <button
-                                      onClick={() => handleDeleteCustomIdea(idea.id)}
-                                      className="text-[#827470] hover:text-red-500 transition-colors p-0.5 rounded opacity-0 group-hover/idea:opacity-100 focus:opacity-100 cursor-pointer"
-                                      title="Delete idea"
-                                      type="button"
+                                {editingIdeaId === idea.id ? (
+                                  <div className="space-y-2">
+                                    <span className="text-[9px] font-mono text-[#9b451c] font-bold block">Edit Initiative Idea:</span>
+                                    <input
+                                      type="text"
+                                      value={editIdeaAuthor}
+                                      onChange={(e) => setEditIdeaAuthor(e.target.value)}
+                                      placeholder="Author Name"
+                                      className="w-full bg-white border border-[#d4c3be] rounded-lg px-2.5 py-1 text-xs outline-none focus:border-[#9b451c]"
+                                    />
+                                    <input
+                                      type="text"
+                                      value={editIdeaTitle}
+                                      onChange={(e) => setEditIdeaTitle(e.target.value)}
+                                      placeholder="Idea Title"
+                                      className="w-full bg-white border border-[#d4c3be] rounded-lg px-2.5 py-1 text-xs font-semibold outline-none focus:border-[#9b451c]"
+                                    />
+                                    <select
+                                      value={editIdeaCategory}
+                                      onChange={(e) => setEditIdeaCategory(e.target.value)}
+                                      className="w-full bg-white border border-[#d4c3be] rounded-lg px-2.5 py-1 text-xs"
                                     >
-                                      <Trash2 size={11} />
-                                    </button>
-                                  )}
-                                </div>
-                                <span className="inline-block text-[8px] font-mono uppercase font-bold text-[#9b451c] bg-[#ffdbce]/40 px-2 py-0.5 rounded-full">
-                                  {idea.category}
-                                </span>
-                                <h5 className="font-serif text-sm font-semibold text-[#442a22]">{idea.title}</h5>
-                                <p className="text-[11px] text-[#827470] leading-relaxed">{idea.desc}</p>
+                                      <option>Earthenware Crafting</option>
+                                      <option>Doorstep Time-Banking</option>
+                                      <option>Dignity Logistics</option>
+                                    </select>
+                                    <textarea
+                                      value={editIdeaDesc}
+                                      onChange={(e) => setEditIdeaDesc(e.target.value)}
+                                      rows={2}
+                                      placeholder="Concept Description"
+                                      className="w-full bg-white border border-[#d4c3be] rounded-lg px-2.5 py-1 text-xs outline-none resize-none focus:border-[#9b451c]"
+                                    />
+                                    <div className="flex gap-2 pt-1">
+                                      <button
+                                        type="button"
+                                        onClick={() => handleSaveEditedCustomIdea(idea.id)}
+                                        className="bg-[#9b451c] text-white text-[10px] px-3 py-1 rounded-lg font-mono font-bold uppercase cursor-pointer"
+                                      >
+                                        Save
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => setEditingIdeaId(null)}
+                                        className="bg-gray-200 text-[#504441] text-[10px] px-3 py-1 rounded-lg font-mono cursor-pointer"
+                                      >
+                                        Cancel
+                                      </button>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <>
+                                    <div className="flex justify-between items-start">
+                                      <span className="inline-block text-[8px] font-mono uppercase font-bold text-[#9b451c] bg-[#ffdbce]/40 px-2 py-0.5 rounded-full">
+                                        {idea.category}
+                                      </span>
+                                      <div className="flex items-center gap-1.5">
+                                        {idea.sparkles && (
+                                          <div className="text-amber-500">
+                                            <Sparkles size={12} className="animate-pulse" />
+                                          </div>
+                                        )}
+                                        <button
+                                          onClick={() => handleStartEditCustomIdea(idea)}
+                                          className="text-[#827470] hover:text-[#9b451c] transition-colors p-1 rounded hover:bg-[#fff8f5] cursor-pointer"
+                                          title="Edit idea"
+                                          type="button"
+                                        >
+                                          <Edit3 size={12} />
+                                        </button>
+                                        <button
+                                          onClick={() => handleDeleteCustomIdea(idea.id)}
+                                          className="text-[#827470] hover:text-red-500 transition-colors p-1 rounded hover:bg-[#fff8f5] cursor-pointer"
+                                          title="Delete idea"
+                                          type="button"
+                                        >
+                                          <Trash2 size={12} />
+                                        </button>
+                                      </div>
+                                    </div>
+                                    <h5 className="font-serif text-sm font-semibold text-[#442a22]">{idea.title}</h5>
+                                    <p className="text-[11px] text-[#827470] leading-relaxed">{idea.desc}</p>
+                                    <div className="flex items-center gap-1 text-[9.5px] font-mono text-[#827470] pt-1.5 border-t border-[#efe6e2]">
+                                      <User size={10} className="text-[#9b451c] shrink-0" />
+                                      <span>By: <strong className="text-[#442a22] font-semibold">{idea.author || "Anonymous Co-Creator"}</strong></span>
+                                    </div>
+                                  </>
+                                )}
                               </motion.div>
                             ))}
                           </div>

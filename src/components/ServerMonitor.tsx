@@ -36,26 +36,26 @@ export default function ServerMonitor() {
   }, []);
 
   return (
-    <div className="fixed bottom-6 right-6 z-40">
+    <div className="fixed bottom-3 right-3 left-3 sm:left-auto sm:right-6 sm:bottom-6 z-50 flex flex-col items-end pointer-events-none">
       <AnimatePresence>
         {!expanded ? (
           <motion.button
             layoutId="monitor-panel"
             onClick={() => setExpanded(true)}
-            className="bg-[#34302c] text-white hover:bg-[#442a22] px-4 py-3 rounded-full flex items-center gap-2 shadow-xl border border-white/10 text-xs font-mono tracking-wider uppercase cursor-pointer"
+            className="pointer-events-auto bg-[#34302c] text-white hover:bg-[#442a22] px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-full flex items-center gap-2 shadow-xl border border-white/10 text-[10px] sm:text-xs font-mono tracking-wider uppercase cursor-pointer max-w-full"
           >
-            <Terminal size={14} className="text-[#fe9162]" />
-            <span>Developer Mailbox &amp; Server Monitor ({emails.length})</span>
+            <Terminal size={14} className="text-[#fe9162] shrink-0" />
+            <span className="truncate">Developer Mailbox &amp; Server Monitor ({emails.length})</span>
           </motion.button>
         ) : (
           <motion.div
             layoutId="monitor-panel"
-            className="bg-[#1e1b18] text-[#fff8f5] w-[340px] md:w-[480px] h-[550px] rounded-3xl border border-white/15 shadow-2xl p-6 flex flex-col justify-between"
+            className="pointer-events-auto bg-[#1e1b18] text-[#fff8f5] w-full max-w-[calc(100vw-24px)] sm:w-[480px] h-[85vh] max-h-[580px] sm:h-[550px] rounded-2xl sm:rounded-3xl border border-white/15 shadow-2xl p-3.5 sm:p-6 flex flex-col justify-between overflow-hidden"
           >
             {/* Header */}
-            <div className="flex justify-between items-center pb-3 border-b border-white/10">
+            <div className="flex justify-between items-center pb-3 border-b border-white/10 shrink-0">
               <div className="flex items-center gap-2">
-                <Terminal className="text-[#fe9162] animate-pulse" size={18} />
+                <Terminal className="text-[#fe9162] animate-pulse shrink-0" size={18} />
                 <div>
                   <h4 className="font-mono text-xs font-bold text-white tracking-wider uppercase">SMTP &amp; API Monitor</h4>
                   <p className="text-[10px] text-[#827470]">Tracking contact@projectahsaaz.org triggers</p>
@@ -83,7 +83,7 @@ export default function ServerMonitor() {
             </div>
 
             {/* Email List or Detailed view */}
-            <div className="flex-grow my-4 overflow-y-auto pr-1">
+            <div className="flex-grow my-3 overflow-y-auto pr-1 max-w-full">
               <AnimatePresence mode="wait">
                 {!selectedEmail ? (
                   <motion.div
@@ -97,7 +97,7 @@ export default function ServerMonitor() {
                       <div className="text-center py-12 space-y-3">
                         <Mail className="mx-auto text-white/20" size={36} />
                         <p className="text-xs text-[#827470] max-w-[240px] mx-auto leading-relaxed">
-                          No registrations triggered yet. Once a volunteer signs up via the form, the real-time email dispatch records will populate here.
+                          No registrations triggered yet. Once a volunteer signs up or a meal is sanitized, real-time records populate here.
                         </p>
                       </div>
                     ) : (
@@ -105,14 +105,14 @@ export default function ServerMonitor() {
                         <div
                           key={email.id}
                           onClick={() => setSelectedEmail(email)}
-                          className="p-3 bg-white/5 border border-white/5 rounded-xl hover:bg-white/10 hover:border-white/10 cursor-pointer transition-all flex justify-between items-start"
+                          className="p-3 bg-white/5 border border-white/5 rounded-xl hover:bg-white/10 hover:border-white/10 cursor-pointer transition-all flex justify-between items-start gap-2"
                         >
-                          <div className="space-y-1 max-w-[70%]">
-                            <p className="font-serif text-sm text-white line-clamp-1">{email.subject}</p>
-                            <p className="text-[10px] font-mono text-[#827470]">To: {email.to}</p>
+                          <div className="space-y-1 max-w-[68%] min-w-0 overflow-hidden">
+                            <p className="font-serif text-xs sm:text-sm text-white truncate">{email.subject}</p>
+                            <p className="text-[10px] font-mono text-[#827470] truncate">To: {email.to}</p>
                             <p className="text-[9px] font-mono text-[#827470]/60">{new Date(email.timestamp).toLocaleString()}</p>
                           </div>
-                          <div className="flex flex-col items-end gap-2">
+                          <div className="flex flex-col items-end gap-1.5 shrink-0">
                             {email.sentSuccessfully ? (
                               <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[9px] font-mono">
                                 <CheckCircle2 size={10} />
@@ -126,7 +126,7 @@ export default function ServerMonitor() {
                             )}
                             <span className="text-[10px] font-mono text-[#fe9162] hover:underline flex items-center gap-1">
                               <Eye size={10} />
-                              <span>Inspect HTML</span>
+                              <span>Inspect</span>
                             </span>
                           </div>
                         </div>
@@ -139,31 +139,31 @@ export default function ServerMonitor() {
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20 }}
-                    className="space-y-4 h-full flex flex-col"
+                    className="space-y-3 h-full flex flex-col max-w-full"
                   >
                     <button
                       onClick={() => setSelectedEmail(null)}
-                      className="text-xs font-mono text-[#fe9162] hover:underline self-start cursor-pointer"
+                      className="text-xs font-mono text-[#fe9162] hover:underline self-start cursor-pointer shrink-0"
                     >
                       ← Back to Mailbox List
                     </button>
 
-                    <div className="p-3 bg-white/5 border border-white/10 rounded-xl space-y-1.5 text-xs font-mono">
-                      <p><span className="text-[#827470]">To:</span> {selectedEmail.to}</p>
-                      <p><span className="text-[#827470]">Subject:</span> {selectedEmail.subject}</p>
-                      <p><span className="text-[#827470]">Timestamp:</span> {new Date(selectedEmail.timestamp).toLocaleString()}</p>
-                      <p>
+                    <div className="p-3 bg-white/5 border border-white/10 rounded-xl space-y-1 text-[11px] font-mono max-w-full overflow-hidden break-all">
+                      <p className="break-all"><span className="text-[#827470]">To:</span> {selectedEmail.to}</p>
+                      <p className="break-all"><span className="text-[#827470]">Subject:</span> {selectedEmail.subject}</p>
+                      <p className="break-all"><span className="text-[#827470]">Timestamp:</span> {new Date(selectedEmail.timestamp).toLocaleString()}</p>
+                      <p className="break-words">
                         <span className="text-[#827470]">SMTP Status:</span>{' '}
                         {selectedEmail.sentSuccessfully ? (
                           <span className="text-emerald-400">Delivered successfully via authenticated server.</span>
                         ) : (
-                          <span className="text-[#fe9162]">Sandbox Emulated. SMTP settings not provided in .env (expected behavior in preview mode).</span>
+                          <span className="text-[#fe9162]">Sandbox Emulated (developer preview log).</span>
                         )}
                       </p>
                     </div>
 
                     {/* HTML Iframe renderer */}
-                    <div className="flex-grow border border-white/10 rounded-xl bg-white overflow-hidden h-[220px]">
+                    <div className="flex-grow border border-white/10 rounded-xl bg-white overflow-hidden min-h-[180px] max-w-full">
                       <iframe
                         srcDoc={selectedEmail.html}
                         title="Draft preview"
@@ -177,10 +177,10 @@ export default function ServerMonitor() {
             </div>
 
             {/* Bottom Details panel */}
-            <div className="p-3 bg-white/5 rounded-xl border border-white/5 text-[10px] text-[#827470] leading-relaxed flex items-start gap-2">
-              <Layers size={16} className="text-[#fe9162] shrink-0 mt-0.5" />
-              <p>
-                <strong>Developer Inbox Loop:</strong> Project Ahsaaz automatically packages volunteer credentials, coordinates, and custom Gemini-generated reflections into an HTML email template and routes it to <strong>contact@projectahsaaz.org</strong>.
+            <div className="p-2.5 bg-white/5 rounded-xl border border-white/5 text-[9.5px] sm:text-[10px] text-[#827470] leading-relaxed flex items-start gap-2 shrink-0">
+              <Layers size={15} className="text-[#fe9162] shrink-0 mt-0.5" />
+              <p className="break-words">
+                <strong>Developer Inbox Loop:</strong> Project Ahsaaz packages volunteer &amp; meal registrations into formatted logs routed to <strong>sarthakbhat2011@gmail.com</strong>.
               </p>
             </div>
           </motion.div>

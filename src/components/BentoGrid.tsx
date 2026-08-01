@@ -14,6 +14,8 @@ export default function BentoGrid() {
   const [activeSandboxTab, setActiveSandboxTab] = useState<'meals' | 'map' | 'breath'>('meals');
 
   // Interactive Meal Composer State
+  const [sponsorName, setSponsorName] = useState('');
+  const [sponsorError, setSponsorError] = useState('');
   const [selectedGrain, setSelectedGrain] = useState<'basmati' | 'dalia' | 'millet'>('basmati');
   const [selectedStew, setSelectedStew] = useState<'rajma' | 'dal' | 'vegetable'>('dal');
   const [selectedAroma, setSelectedAroma] = useState<'ghee' | 'turmeric' | 'coriander'>('ghee');
@@ -293,11 +295,31 @@ export default function BentoGrid() {
                     </p>
                   </div>
 
-                  <div className="space-y-4">
+                  <div className="space-y-4 w-full">
+                    {/* Volunteer / Sponsor Name Input */}
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-mono text-[#827470] uppercase font-bold block">
+                        Volunteer / Sponsor Name:
+                      </label>
+                      <input
+                        type="text"
+                        value={sponsorName}
+                        onChange={(e) => {
+                          setSponsorName(e.target.value);
+                          if (sponsorError) setSponsorError('');
+                        }}
+                        placeholder="E.g., Meenu Bhat"
+                        className="w-full bg-white border border-[#e9e1dc] rounded-xl px-3 py-2 text-xs font-sans outline-none focus:border-[#9b451c] text-[#442a22]"
+                      />
+                      {sponsorError && (
+                        <p className="text-[10px] text-red-500 font-mono">{sponsorError}</p>
+                      )}
+                    </div>
+
                     {/* Grain selection */}
-                    <div className="space-y-1.5">
-                      <span className="text-[10px] font-mono text-[#827470] uppercase block">Select Organic Whole Grain Base:</span>
-                      <div className="flex gap-2">
+                    <div className="space-y-1.5 w-full">
+                      <span className="text-[10px] font-mono text-[#827470] uppercase block font-bold">Select Organic Whole Grain Base:</span>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 w-full">
                         {[
                           { id: 'basmati', name: 'Aromatic Basmati Rice' },
                           { id: 'dalia', name: 'Nutritious Wheat Dalia' },
@@ -306,7 +328,7 @@ export default function BentoGrid() {
                           <button
                             key={grain.id}
                             onClick={() => { setSelectedGrain(grain.id as any); setAssemblyComplete(false); }}
-                            className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all cursor-pointer ${
+                            className={`w-full text-center px-2.5 py-2 rounded-lg text-xs font-mono font-medium transition-all cursor-pointer break-words ${
                               selectedGrain === grain.id ? 'bg-[#ffdbce] text-[#7c2e05] border border-[#fe9162]' : 'bg-white border border-[#e9e1dc] text-[#827470]'
                             }`}
                           >
@@ -317,9 +339,9 @@ export default function BentoGrid() {
                     </div>
 
                     {/* Stew selection */}
-                    <div className="space-y-1.5">
-                      <span className="text-[10px] font-mono text-[#827470] uppercase block">Select Nutritious Entrée:</span>
-                      <div className="flex gap-2">
+                    <div className="space-y-1.5 w-full">
+                      <span className="text-[10px] font-mono text-[#827470] uppercase block font-bold">Select Nutritious Entrée:</span>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 w-full">
                         {[
                           { id: 'rajma', name: 'Slow-Cooked Rajma Curry' },
                           { id: 'dal', name: 'Traditional Yellow Lentil Dal' },
@@ -328,7 +350,7 @@ export default function BentoGrid() {
                           <button
                             key={stew.id}
                             onClick={() => { setSelectedStew(stew.id as any); setAssemblyComplete(false); }}
-                            className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all cursor-pointer ${
+                            className={`w-full text-center px-2.5 py-2 rounded-lg text-xs font-mono font-medium transition-all cursor-pointer break-words ${
                               selectedStew === stew.id ? 'bg-[#ffdbce] text-[#7c2e05] border border-[#fe9162]' : 'bg-white border border-[#e9e1dc] text-[#827470]'
                             }`}
                           >
@@ -339,14 +361,14 @@ export default function BentoGrid() {
                     </div>
 
                     {/* Blessing message */}
-                    <div className="space-y-1.5">
-                      <span className="text-[10px] font-mono text-[#827470] uppercase block">Message of Hope (Stenciled Note):</span>
-                      <div className="space-y-1.5">
+                    <div className="space-y-1.5 w-full">
+                      <span className="text-[10px] font-mono text-[#827470] uppercase block font-bold">Message of Hope (Stenciled Note):</span>
+                      <div className="space-y-1.5 w-full">
                         {blessings.map((msg, idx) => (
                           <button
                             key={idx}
                             onClick={() => { setSelectedBlessing(idx); setAssemblyComplete(false); }}
-                            className={`w-full text-left px-3 py-2 rounded-lg text-xs font-serif transition-all cursor-pointer block border ${
+                            className={`w-full text-left px-3 py-2 rounded-lg text-xs font-serif transition-all cursor-pointer block border break-words ${
                               selectedBlessing === idx ? 'bg-[#fff8f5] border-[#9b451c] text-[#9b451c]' : 'bg-white border-[#e9e1dc] text-[#504441]'
                             }`}
                           >
@@ -360,7 +382,7 @@ export default function BentoGrid() {
                   <button
                     onClick={startMealAssembly}
                     disabled={isAssembling}
-                    className="bg-[#9b451c] hover:bg-[#b04f20] text-white px-5 py-2.5 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all disabled:opacity-50 cursor-pointer"
+                    className="w-full sm:w-auto bg-[#9b451c] hover:bg-[#b04f20] text-white px-5 py-2.5 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all disabled:opacity-50 cursor-pointer shadow-sm"
                   >
                     {isAssembling ? "Assembling & Wrapping..." : "Pack & Sanctify Meal"}
                   </button>
