@@ -1309,7 +1309,7 @@ export default function App() {
                                 type="text"
                                 value={ideaAuthor}
                                 onChange={(e) => setIdeaAuthor(e.target.value)}
-                                placeholder="E.g., Meenu Bhat"
+                                placeholder="E.g., Ananya Sharma"
                                 className="w-full bg-white border border-[#d4c3be] rounded-xl px-3 py-2 text-xs outline-none focus:border-[#9b451c]"
                                 required
                               />
@@ -1434,22 +1434,26 @@ export default function App() {
                                             <Sparkles size={12} className="animate-pulse" />
                                           </div>
                                         )}
-                                        <button
-                                          onClick={() => handleStartEditCustomIdea(idea)}
-                                          className="text-[#827470] hover:text-[#9b451c] transition-colors p-1 rounded hover:bg-[#fff8f5] cursor-pointer"
-                                          title="Edit idea"
-                                          type="button"
-                                        >
-                                          <Edit3 size={12} />
-                                        </button>
-                                        <button
-                                          onClick={() => handleDeleteCustomIdea(idea.id)}
-                                          className="text-[#827470] hover:text-red-500 transition-colors p-1 rounded hover:bg-[#fff8f5] cursor-pointer"
-                                          title="Delete idea"
-                                          type="button"
-                                        >
-                                          <Trash2 size={12} />
-                                        </button>
+                                        {idea.isUserCreated && (
+                                          <>
+                                            <button
+                                              onClick={() => handleStartEditCustomIdea(idea)}
+                                              className="text-[#827470] hover:text-[#9b451c] transition-colors p-1 rounded hover:bg-[#fff8f5] cursor-pointer"
+                                              title="Edit idea"
+                                              type="button"
+                                            >
+                                              <Edit3 size={12} />
+                                            </button>
+                                            <button
+                                              onClick={() => handleDeleteCustomIdea(idea.id)}
+                                              className="text-[#827470] hover:text-red-500 transition-colors p-1 rounded hover:bg-[#fff8f5] cursor-pointer"
+                                              title="Delete idea"
+                                              type="button"
+                                            >
+                                              <Trash2 size={12} />
+                                            </button>
+                                          </>
+                                        )}
                                       </div>
                                     </div>
                                     <h5 className="font-serif text-sm font-semibold text-[#442a22]">{idea.title}</h5>

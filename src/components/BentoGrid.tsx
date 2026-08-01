@@ -308,7 +308,7 @@ export default function BentoGrid() {
                           setSponsorName(e.target.value);
                           if (sponsorError) setSponsorError('');
                         }}
-                        placeholder="E.g., Meenu Bhat"
+                        placeholder="E.g., Aarav Patel"
                         className="w-full bg-white border border-[#e9e1dc] rounded-xl px-3 py-2 text-xs font-sans outline-none focus:border-[#9b451c] text-[#442a22]"
                       />
                       {sponsorError && (
