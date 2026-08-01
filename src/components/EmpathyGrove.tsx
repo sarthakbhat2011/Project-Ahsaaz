@@ -11,27 +11,27 @@ interface EmpathyGroveProps {
 export default function EmpathyGrove({ signups, onRefresh }: EmpathyGroveProps) {
   const [selectedPlant, setSelectedPlant] = useState<Signup | null>(null);
 
-  // Pre-seed mock values just in case no actual records exist yet, to avoid any empty state
+  // Default community fallback values when no live registrations are logged
   const defaultSignups: Signup[] = [
     {
-      name: "Siddharth Nair",
-      email: "sid@nair.com",
-      message: "Empathy means waking up at 4 AM to brew ginger tea for elders in shelters.",
-      reflection: "Siddharth, your ginger tea brews warmth both in cups and hearts. Waking up in the quiet dark shows a gentle courage that bridges physical hunger with beautiful, silent companionship.",
+      name: "Ahsaaz Volunteer",
+      email: "volunteer@ahsaaz.org",
+      message: "Empathy means waking up in the quiet early hours to prepare warm meals for elders in community shelters.",
+      reflection: "Your dedication brews warmth both in cups and hearts. Waking up in the quiet dark shows a gentle courage that bridges physical hunger with beautiful, silent companionship.",
       timestamp: new Date(Date.now() - 3600000 * 4).toISOString()
     },
     {
-      name: "Aanya Verma",
-      email: "aanya@verma.org",
-      message: "I want to help design maps of locations with the highest rate of isolated seniors.",
-      reflection: "Aanya, charting maps with data guides compassion to its exact coordinate. You are showing that empathy is both a feeling and a systematic, precise shield for those who are forgotten.",
+      name: "Dignity Advocate",
+      email: "advocate@ahsaaz.org",
+      message: "I want to help map local areas with the highest rate of isolated seniors so support reaches every doorstep.",
+      reflection: "Charting maps with data guides compassion to its exact coordinate, showing that empathy is both a feeling and a systematic shield for those who are forgotten.",
       timestamp: new Date(Date.now() - 3600000 * 24).toISOString()
     },
     {
-      name: "Devanshu Mehta",
-      email: "dev@mehta.net",
-      message: "Dignified starvation relief starts by serving meals in fine sustainable tableware, not paper cups.",
-      reflection: "Devanshu, replacing sterile charity with sustainable tableware is a profound statement of equality. You are reminding us that eating is a ceremony of absolute dignity, not an act of pity.",
+      name: "Community Companion",
+      email: "companion@ahsaaz.org",
+      message: "Dignified starvation relief starts by serving meals in fine sustainable earthenware tableware, not paper cups.",
+      reflection: "Replacing sterile charity with sustainable tableware is a profound statement of equality, reminding us that eating is a ceremony of absolute dignity.",
       timestamp: new Date(Date.now() - 3600000 * 48).toISOString()
     }
   ];
