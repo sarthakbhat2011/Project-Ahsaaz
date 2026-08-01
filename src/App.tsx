@@ -527,57 +527,57 @@ export default function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.2 }}
-            className="w-full relative pt-28"
+            className="w-full relative pt-20 sm:pt-28"
           >
             
             {/* 3. MULTI-LAYERED SOPHISTICATED NAVIGATION BAR */}
             <nav className="fixed top-0 left-0 right-0 z-40 bg-[#fff8f5]/90 backdrop-blur-md border-b border-[#e9e1dc]/50 transition-all duration-300">
               
               {/* Top Utility Rail: Interactive Sourcing Details & IST Clock */}
-              <div className="bg-[#9b451c]/5 px-4 md:px-8 py-1.5 border-b border-[#e9e1dc]/30 flex flex-col sm:flex-row justify-between items-center text-[10px] font-mono text-[#827470] tracking-widest uppercase font-semibold gap-2">
-                <div className="flex items-center gap-2">
-                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#9b451c]" />
-                  <span>● Pre-Stage Sanctuary // Gathering Co-Creators</span>
+              <div className="bg-[#9b451c]/5 px-3 sm:px-4 md:px-8 py-1 sm:py-1.5 border-b border-[#e9e1dc]/30 flex flex-col sm:flex-row justify-between items-center text-[9px] sm:text-[10px] font-mono text-[#827470] tracking-widest uppercase font-semibold gap-1 sm:gap-2">
+                <div className="flex items-center gap-1.5 sm:gap-2 text-[8.5px] sm:text-[10px]">
+                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#9b451c] shrink-0" />
+                  <span>● Pre-Stage Sanctuary <span className="hidden sm:inline">// Gathering Co-Creators</span></span>
                 </div>
                 
-                {/* Center Locality Action Guide Link */}
-                <div className="flex items-center gap-3">
+                {/* Center Locality Action Guide Link & IST Clock grouped cleanly on mobile */}
+                <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-2 sm:gap-4">
                   <a 
                     href="?mode=guide"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 px-3 py-1 rounded-md bg-white border border-[#efe6e2] text-[#9b451c] hover:bg-[#ffdbce] hover:border-[#9b451c] transition-all cursor-pointer font-bold uppercase text-[9px] tracking-wider"
+                    className="flex items-center gap-1 sm:gap-1.5 px-2 py-0.5 sm:px-3 sm:py-1 rounded-md bg-white border border-[#efe6e2] text-[#9b451c] hover:bg-[#ffdbce] hover:border-[#9b451c] transition-all cursor-pointer font-bold uppercase text-[8px] sm:text-[9px] tracking-wider shrink-0"
                   >
                     <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-                    <span>🌐 Action Protocol Guide (New Tab)</span>
+                    <span>🌐 Action Protocol Guide <span className="hidden sm:inline">(New Tab)</span></span>
                   </a>
-                </div>
 
-                {/* National Time (IST Clock) */}
-                <div className="flex items-center gap-1.5">
-                  <Clock size={11} className="text-[#9b451c]" />
-                  <span>National Time (IST): {istTime || "12:00:00 PM"}</span>
+                  {/* National Time (IST Clock) */}
+                  <div className="flex items-center gap-1 sm:gap-1.5 text-[8.5px] sm:text-[10px] shrink-0">
+                    <Clock size={10} className="text-[#9b451c] sm:w-[11px] sm:h-[11px]" />
+                    <span><span className="hidden sm:inline">National Time (</span>IST<span className="hidden sm:inline">)</span>: {istTime || "12:00:00 PM"}</span>
+                  </div>
                 </div>
               </div>
 
               {/* Main Rail Navigation */}
-              <div className="max-w-7xl mx-auto px-4 md:px-8 py-3.5 flex justify-between items-center">
+              <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-8 py-2 sm:py-3.5 flex justify-between items-center">
                 
                 {/* Brand Identity */}
                 <div 
-                  className="flex items-center gap-3 cursor-pointer group" 
+                  className="flex items-center gap-2 sm:gap-3 cursor-pointer group" 
                   onClick={() => { setActiveTab('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                 >
                   <img 
                     src="/project-ahsaaz-logo.jpg" 
                     alt="Project Ahsaaz Logo" 
-                    className="w-10 h-10 md:w-11 md:h-11 object-cover rounded-full border border-[#efe6e2] shadow-xs group-hover:scale-105 transition-transform" 
+                    className="w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 object-cover rounded-full border border-[#efe6e2] shadow-xs group-hover:scale-105 transition-transform" 
                   />
                   <div className="flex flex-col">
-                    <span className="font-serif text-xl md:text-2xl font-bold tracking-tight text-[#442a22]">
+                    <span className="font-serif text-lg sm:text-xl md:text-2xl font-bold tracking-tight text-[#442a22]">
                       Project Ahsaaz
                     </span>
-                    <span className="text-[8px] font-mono tracking-widest text-[#9b451c] font-bold uppercase">
+                    <span className="text-[7.5px] sm:text-[8px] font-mono tracking-widest text-[#9b451c] font-bold uppercase">
                       A Sanctuary of Unhurried Companionship
                     </span>
                   </div>
