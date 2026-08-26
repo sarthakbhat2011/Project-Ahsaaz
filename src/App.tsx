@@ -251,6 +251,18 @@ export default function App() {
   // Interactive Hero section modules for NGO Showcase
   const [activeHeroModule, setActiveHeroModule] = useState<'care' | 'health' | 'empathy'>('care');
 
+  // Deep link detection for Join Us page (?tab=join or #join)
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const search = window.location.search.toLowerCase();
+      const hash = window.location.hash.toLowerCase();
+      if (search.includes('tab=join') || search.includes('mode=join') || hash === '#join' || hash === '#join-us') {
+        setActiveTab('join');
+        setHasEnteredSite(true);
+      }
+    }
+  }, []);
+
   // Live clock hook
   useEffect(() => {
     const updateTime = () => {
