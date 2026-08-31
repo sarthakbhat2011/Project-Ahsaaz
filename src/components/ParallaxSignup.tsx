@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Mail, User, Phone, Heart, Sparkles, Check, Send, AlertCircle, Info, 
-  Sliders, MessageSquare, Users, Zap, PenTool, Mic, Clock, HeartHandshake, Smile, BarChart2
+  Sliders, MessageSquare, Users, Zap, PenTool, Mic, Clock, HeartHandshake, Smile, BarChart2,
+  ArrowRight, ArrowLeft
 } from 'lucide-react';
 import { Signup } from '../types';
 
@@ -89,18 +90,20 @@ export const CAPABILITY_QUESTIONS: CapabilityQuestion[] = [
 export function getScoreBadge(score: number) {
   if (score >= 9) return { label: 'Exemplary / Leader', bg: 'bg-[#9b451c] text-white' };
   if (score >= 7) return { label: 'Proficient', bg: 'bg-emerald-700 text-white' };
-  if (score >= 4) return { label: 'Competent', bg: 'bg-amber-600 text-white' };
+  if (score >= 4) return { label: 'Competent', bg: 'bg-[#b04f20] text-white' };
   return { label: 'Developing', bg: 'bg-stone-600 text-white' };
 }
 
 export default function ParallaxSignup({ onSignupSuccess }: ParallaxSignupProps) {
-  const [scrollY, setScrollY] = useState(0);
+  // Step 1: Capability Questions -> Step 2: Personal Profile & Empathy Statement
+  const [formStep, setFormStep] = useState<1 | 2>(1);
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [message, setMessage] = useState('');
   
-  // 8 Capability ratings state (default 7/10 for balanced baseline)
+  // 8 Capability ratings state (default 7/10 baseline)
   const [ratings, setRatings] = useState<Record<string, number>>({
     communication: 8,
     outreach: 7,
@@ -116,14 +119,6 @@ export default function ParallaxSignup({ onSignupSuccess }: ParallaxSignupProps)
   const [error, setError] = useState('');
   const [successData, setSuccessData] = useState<Signup | null>(null);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   const handleRatingChange = (id: string, value: number) => {
     setRatings(prev => ({
       ...prev,
@@ -138,10 +133,20 @@ export default function ParallaxSignup({ onSignupSuccess }: ParallaxSignupProps)
   const avgScore: number = count > 0 ? Number(totalRatingSum) / Number(count) : 7.5;
   const overallBadge = getScoreBadge(Math.round(avgScore));
 
+  const handleProceedToStep2 = () => {
+    setError('');
+    setFormStep(2);
+    // Smooth scroll to step top
+    const el = document.getElementById('signup-portal');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !email) {
-      setError('Name and email are required to complete your volunteer application.');
+    if (!name.trim() || !email.trim()) {
+      setError('Name and email are required to complete your application.');
       return;
     }
 
@@ -175,6 +180,7 @@ export default function ParallaxSignup({ onSignupSuccess }: ParallaxSignupProps)
       setEmail('');
       setPhone('');
       setMessage('');
+      setFormStep(1);
     } catch (err: any) {
       setError(err.message || 'An error occurred while connecting to the server.');
     } finally {
@@ -185,28 +191,12 @@ export default function ParallaxSignup({ onSignupSuccess }: ParallaxSignupProps)
   return (
     <section 
       id="signup-portal"
-      className="relative min-h-[900px] w-full flex items-center justify-center py-16 px-4 md:px-8 overflow-hidden bg-[#fff8f5] border-t border-[#e9e1dc]"
+      className="relative min-h-[700px] w-full flex items-center justify-center py-12 px-4 md:px-8 overflow-hidden bg-[#fff8f5] border-t border-[#e9e1dc]"
     >
-      {/* --- PARALLAX LAYERS --- */}
-      <div 
-        className="absolute inset-0 pointer-events-none z-0 opacity-40 transition-transform duration-75"
-        style={{ transform: `translateY(${scrollY * 0.15}px)` }}
-      >
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-radial from-[#ffdbce] via-[#fbf2ed] to-transparent blur-[120px]" />
-      </div>
-
-      <div 
-        className="absolute bottom-0 inset-x-0 h-96 pointer-events-none z-0 opacity-30 transition-transform duration-75 flex items-end justify-between"
-        style={{ transform: `translateY(${scrollY * 0.08}px)` }}
-      >
-        <svg viewBox="0 0 100 100" className="w-64 h-64 text-[#9b451c]/10 overflow-visible">
-          <circle cx="20" cy="110" r="80" fill="currentColor" />
-          <circle cx="80" cy="120" r="60" fill="currentColor" />
-        </svg>
-        <svg viewBox="0 0 100 100" className="w-80 h-80 text-[#9b451c]/10 overflow-visible">
-          <circle cx="80" cy="110" r="75" fill="currentColor" />
-          <circle cx="10" cy="120" r="50" fill="currentColor" />
-        </svg>
+      {/* High Performance Ambient Lighting Backdrop (Zero JS Scroll Repaints) */}
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-full bg-[#ffdbce]/40 blur-[100px]" />
+        <div className="absolute bottom-0 inset-x-0 h-48 bg-gradient-to-t from-[#fbf2ed] to-transparent" />
       </div>
 
       <div className="relative z-10 w-full max-w-4xl">
@@ -214,28 +204,32 @@ export default function ParallaxSignup({ onSignupSuccess }: ParallaxSignupProps)
           {!successData ? (
             <motion.div
               key="signup-form"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="bg-white rounded-3xl p-6 md:p-10 border border-[#e9e1dc] shadow-[0_15px_50px_rgba(68,42,34,0.06)] relative overflow-hidden"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.4 }}
+              className="bg-white rounded-3xl p-6 md:p-10 border border-[#e9e1dc] shadow-[0_15px_40px_rgba(68,42,34,0.05)] relative overflow-hidden"
             >
-              {/* Card top badge */}
-              <div className="flex justify-center mb-4">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#ffdbce] text-[#7c2e05] text-xs font-mono font-semibold uppercase">
+              {/* Step indicator header badge */}
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mb-6 pb-4 border-b border-[#efe6e2]">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#ffdbce] text-[#7c2e05] text-xs font-mono font-semibold uppercase">
                   <Heart size={12} className="fill-[#7c2e05]" />
-                  Join the Ahsaaz Circle &bull; Capability Assessment
+                  Join Ahsaaz &bull; Capability Assessment
                 </div>
-              </div>
 
-              <div className="text-center mb-8">
-                <h2 className="font-serif text-3xl md:text-4xl text-[#442a22] font-semibold mb-3">
-                  Become a Hand of Support
-                </h2>
-                <p className="font-sans text-sm md:text-base text-[#827470] max-w-xl mx-auto leading-relaxed">
-                  Provide your profile details and self-evaluate your capabilities across 8 key areas. Your application matrix will be transmitted directly to our developer team inbox.
-                </p>
+                <div className="flex items-center gap-2">
+                  <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold transition-all ${
+                    formStep === 1 ? 'bg-[#9b451c] text-white shadow-xs' : 'bg-gray-100 text-[#827470]'
+                  }`}>
+                    1. Skill Questions
+                  </span>
+                  <span className="text-[#827470] text-xs">&rarr;</span>
+                  <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold transition-all ${
+                    formStep === 2 ? 'bg-[#9b451c] text-white shadow-xs' : 'bg-gray-100 text-[#827470]'
+                  }`}>
+                    2. Your Profile
+                  </span>
+                </div>
               </div>
 
               {error && (
@@ -245,85 +239,25 @@ export default function ParallaxSignup({ onSignupSuccess }: ParallaxSignupProps)
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-8">
-                {/* SECTION 1: APPLICANT PROFILE */}
-                <div className="space-y-4">
-                  <div className="border-b border-[#efe6e2] pb-2 flex items-center gap-2">
-                    <User size={16} className="text-[#9b451c]" />
-                    <h3 className="font-serif text-base font-semibold text-[#442a22]">Section 1: Volunteer Applicant Profile</h3>
+              {/* STEP 1: CAPABILITY QUESTIONS FIRST */}
+              {formStep === 1 && (
+                <motion.div 
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 10 }}
+                  transition={{ duration: 0.3 }}
+                  className="space-y-6"
+                >
+                  <div className="text-center max-w-xl mx-auto space-y-2">
+                    <h2 className="font-serif text-2xl md:text-3xl text-[#442a22] font-semibold">
+                      Volunteer Capability Rating (8 Questions)
+                    </h2>
+                    <p className="font-sans text-xs md:text-sm text-[#827470] leading-relaxed">
+                      Rate your skills from 1 to 10 using the interactive meters below. Once completed, proceed to Step 2 to enter your contact details.
+                    </p>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {/* Name field */}
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-mono text-[#827470] uppercase font-semibold">Full Name *</label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#827470]">
-                          <User size={15} />
-                        </div>
-                        <input
-                          type="text"
-                          placeholder="E.g., Aarav Sharma"
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
-                          className="w-full bg-[#fff8f5] rounded-xl border border-[#d4c3be] py-2.5 pl-10 pr-3 text-xs md:text-sm text-[#1e1b18] focus:border-[#9b451c] focus:ring-2 focus:ring-[#ffdbd0] outline-none transition-all placeholder-[#827470]/40"
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    {/* Email field */}
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-mono text-[#827470] uppercase font-semibold">Email Address *</label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#827470]">
-                          <Mail size={15} />
-                        </div>
-                        <input
-                          type="email"
-                          placeholder="aarav.sharma@example.com"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          className="w-full bg-[#fff8f5] rounded-xl border border-[#d4c3be] py-2.5 pl-10 pr-3 text-xs md:text-sm text-[#1e1b18] focus:border-[#9b451c] focus:ring-2 focus:ring-[#ffdbd0] outline-none transition-all placeholder-[#827470]/40"
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    {/* Phone / WhatsApp field */}
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-mono text-[#827470] uppercase font-semibold">Phone / WhatsApp</label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#827470]">
-                          <Phone size={15} />
-                        </div>
-                        <input
-                          type="tel"
-                          placeholder="+91 98765 43210"
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
-                          className="w-full bg-[#fff8f5] rounded-xl border border-[#d4c3be] py-2.5 pl-10 pr-3 text-xs md:text-sm text-[#1e1b18] focus:border-[#9b451c] focus:ring-2 focus:ring-[#ffdbd0] outline-none transition-all placeholder-[#827470]/40"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* SECTION 2: INTERACTIVE CAPABILITY ASSESSMENT SLIDERS */}
-                <div className="space-y-4">
-                  <div className="border-b border-[#efe6e2] pb-2 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Sliders size={16} className="text-[#9b451c]" />
-                      <h3 className="font-serif text-base font-semibold text-[#442a22]">Section 2: Interactive Volunteer Capability Rating</h3>
-                    </div>
-                    <span className="text-[10px] font-mono text-[#827470] uppercase bg-[#ffdbce]/40 px-2.5 py-1 rounded-full font-bold">8 Key Questions</span>
-                  </div>
-
-                  <p className="text-xs text-[#827470] leading-relaxed">
-                    Adjust the interactive rating bars below (from 1 to 10) to self-evaluate your skill proficiency and readiness.
-                  </p>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {CAPABILITY_QUESTIONS.map((q) => {
                       const IconComp = q.icon;
                       const currentScore = ratings[q.id] || 7;
@@ -348,7 +282,7 @@ export default function ParallaxSignup({ onSignupSuccess }: ParallaxSignupProps)
                           {/* Interactive Meter Bar */}
                           <div className="space-y-1.5 pt-1">
                             <div className="flex items-center justify-between text-[11px] font-mono">
-                              <span className="text-[#827470] font-semibold">Capability Score:</span>
+                              <span className="text-[#827470] font-semibold">Rating:</span>
                               <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${badge.bg}`}>
                                 {currentScore} / 10 ({percentage}%) &bull; {badge.label}
                               </span>
@@ -398,14 +332,14 @@ export default function ParallaxSignup({ onSignupSuccess }: ParallaxSignupProps)
                   </div>
 
                   {/* OVERALL CAPABILITY SUMMARY CARD */}
-                  <div className="p-4 bg-[#442a22] text-white rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm mt-4">
+                  <div className="p-4 bg-[#442a22] text-white rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
                     <div className="flex items-center gap-3 text-center sm:text-left">
                       <div className="p-3 bg-[#9b451c] rounded-xl text-amber-300">
                         <BarChart2 size={24} />
                       </div>
                       <div>
                         <span className="text-[10px] font-mono text-amber-300 uppercase tracking-widest block font-bold">Overall Candidate Capability Index</span>
-                        <h4 className="font-serif text-lg font-bold text-white">
+                        <h4 className="font-serif text-base md:text-lg font-bold text-white">
                           Average Score: <span className="text-amber-400">{avgScore.toFixed(1)} / 10</span> ({Math.round(avgScore * 10)}%)
                         </h4>
                       </div>
@@ -416,49 +350,149 @@ export default function ParallaxSignup({ onSignupSuccess }: ParallaxSignupProps)
                       </span>
                     </div>
                   </div>
-                </div>
 
-                {/* SECTION 3: STATEMENT OF EMPATHY */}
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <label className="text-xs font-mono text-[#827470] uppercase font-semibold">What Empathy & Volunteerism Mean to You</label>
-                    <span className="text-[10px] font-mono text-[#827470]/60 italic">Optional</span>
+                  {/* PROCEED TO STEP 2 BUTTON */}
+                  <div className="pt-2">
+                    <button
+                      type="button"
+                      onClick={handleProceedToStep2}
+                      className="w-full bg-[#9b451c] hover:bg-[#b04f20] text-white py-4 px-6 rounded-2xl font-mono uppercase font-bold text-xs tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md transform hover:scale-[1.01]"
+                    >
+                      <span>Proceed to Applicant Profile & Empathy Statement</span>
+                      <ArrowRight size={16} />
+                    </button>
                   </div>
-                  <textarea
-                    rows={3}
-                    placeholder="E.g., I want to help pack warm meals on weekends and offer deep, silent listening to elders in our community..."
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    className="w-full bg-[#fff8f5] rounded-xl border border-[#d4c3be] py-3 px-4 text-xs md:text-sm text-[#1e1b18] focus:border-[#9b451c] focus:ring-2 focus:ring-[#ffdbd0] outline-none transition-all placeholder-[#827470]/40 resize-none"
-                  />
-                </div>
+                </motion.div>
+              )}
 
-                {/* Developer Dispatch Notification Notice */}
-                <div className="p-3.5 bg-[#fbf2ed] rounded-xl border border-[#efe6e2] flex items-start gap-2.5 text-[11px] text-[#827470]">
-                  <Info size={16} className="text-[#9b451c] shrink-0 mt-0.5" />
-                  <p className="leading-relaxed">
-                    <strong>Developer Inbox Relay:</strong> Submitting this form triggers a background relay that packages your applicant profile and 8 capability scores into a structured log routed directly to <strong>sarthakbhat2011@gmail.com</strong>.
-                  </p>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full bg-[#9b451c] hover:bg-[#b04f20] text-white py-3.5 px-6 rounded-xl font-medium flex items-center justify-center gap-2 transition-all cursor-pointer transform hover:scale-101 hover:shadow-[0_8px_20px_rgba(155,69,28,0.25)]"
+              {/* STEP 2: APPLICANT PROFILE & EMPATHY STATEMENT */}
+              {formStep === 2 && (
+                <motion.div 
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  {loading ? (
-                    <>
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      <span>Transmitting Capability Profile to Developer Mailbox...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Send size={16} />
-                      <span>Submit Volunteer Capability Assessment</span>
-                    </>
-                  )}
-                </button>
-              </form>
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="text-center max-w-xl mx-auto space-y-1">
+                      <h2 className="font-serif text-2xl md:text-3xl text-[#442a22] font-semibold">
+                        Step 2: Applicant Profile & Submission
+                      </h2>
+                      <p className="font-sans text-xs md:text-sm text-[#827470] leading-relaxed">
+                        Enter your contact information below. Your 8 capability ratings and profile will be packaged into a structured log routed to the Developer Mailbox.
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-[#fff8f5] p-5 rounded-2xl border border-[#e9e1dc]">
+                      {/* Name field */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-mono text-[#827470] uppercase font-semibold">Full Name *</label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#827470]">
+                            <User size={15} />
+                          </div>
+                          <input
+                            type="text"
+                            placeholder="E.g., Aarav Sharma"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            className="w-full bg-white rounded-xl border border-[#d4c3be] py-2.5 pl-10 pr-3 text-xs md:text-sm text-[#1e1b18] focus:border-[#9b451c] focus:ring-2 focus:ring-[#ffdbd0] outline-none transition-all placeholder-[#827470]/40"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      {/* Email field */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-mono text-[#827470] uppercase font-semibold">Email Address *</label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#827470]">
+                            <Mail size={15} />
+                          </div>
+                          <input
+                            type="email"
+                            placeholder="aarav.sharma@example.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="w-full bg-white rounded-xl border border-[#d4c3be] py-2.5 pl-10 pr-3 text-xs md:text-sm text-[#1e1b18] focus:border-[#9b451c] focus:ring-2 focus:ring-[#ffdbd0] outline-none transition-all placeholder-[#827470]/40"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      {/* Phone / WhatsApp field */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-mono text-[#827470] uppercase font-semibold">Phone / WhatsApp</label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#827470]">
+                            <Phone size={15} />
+                          </div>
+                          <input
+                            type="tel"
+                            placeholder="+91 98765 43210"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                            className="w-full bg-white rounded-xl border border-[#d4c3be] py-2.5 pl-10 pr-3 text-xs md:text-sm text-[#1e1b18] focus:border-[#9b451c] focus:ring-2 focus:ring-[#ffdbd0] outline-none transition-all placeholder-[#827470]/40"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* STATEMENT OF EMPATHY */}
+                    <div className="space-y-2 bg-[#fff8f5] p-5 rounded-2xl border border-[#e9e1dc]">
+                      <div className="flex justify-between items-center">
+                        <label className="text-xs font-mono text-[#827470] uppercase font-semibold">What Empathy & Volunteerism Mean to You</label>
+                        <span className="text-[10px] font-mono text-[#827470]/60 italic">Optional</span>
+                      </div>
+                      <textarea
+                        rows={3}
+                        placeholder="E.g., I want to help pack warm meals on weekends and offer deep, silent listening to elders in our community..."
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        className="w-full bg-white rounded-xl border border-[#d4c3be] py-3 px-4 text-xs md:text-sm text-[#1e1b18] focus:border-[#9b451c] focus:ring-2 focus:ring-[#ffdbd0] outline-none transition-all placeholder-[#827470]/40 resize-none"
+                      />
+                    </div>
+
+                    {/* Developer Dispatch Notification Notice */}
+                    <div className="p-3.5 bg-[#fbf2ed] rounded-xl border border-[#efe6e2] flex items-start gap-2.5 text-[11px] text-[#827470]">
+                      <Info size={16} className="text-[#9b451c] shrink-0 mt-0.5" />
+                      <p className="leading-relaxed">
+                        <strong>Developer Inbox Relay:</strong> Submitting this form packages your profile and 8 capability ratings into a structured log routed to <strong>sarthakbhat2011@gmail.com</strong>.
+                      </p>
+                    </div>
+
+                    {/* ACTION BUTTONS */}
+                    <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+                      <button
+                        type="button"
+                        onClick={() => setFormStep(1)}
+                        className="w-full sm:w-auto bg-gray-100 hover:bg-gray-200 text-[#504441] py-3.5 px-5 rounded-xl font-mono text-xs uppercase font-bold flex items-center justify-center gap-2 transition-all cursor-pointer"
+                      >
+                        <ArrowLeft size={16} />
+                        <span>Back to Rating Questions</span>
+                      </button>
+
+                      <button
+                        type="submit"
+                        disabled={loading}
+                        className="w-full sm:flex-1 bg-[#9b451c] hover:bg-[#b04f20] text-white py-3.5 px-6 rounded-xl font-medium flex items-center justify-center gap-2 transition-all cursor-pointer transform hover:scale-[1.01] shadow-md"
+                      >
+                        {loading ? (
+                          <>
+                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                            <span>Transmitting Profile to Developer Mailbox...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Send size={16} />
+                            <span>Submit Volunteer Capability Assessment</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </form>
+                </motion.div>
+              )}
             </motion.div>
           ) : (
             <motion.div
@@ -495,7 +529,7 @@ export default function ParallaxSignup({ onSignupSuccess }: ParallaxSignupProps)
 
               <div className="text-center">
                 <button
-                  onClick={() => setSuccessData(null)}
+                  onClick={() => { setSuccessData(null); setFormStep(1); }}
                   className="px-6 py-2.5 rounded-lg border border-[#9b451c] text-[#9b451c] hover:bg-[#ffdbce] text-xs font-mono font-semibold uppercase tracking-wider transition-all cursor-pointer"
                 >
                   Submit Another Assessment

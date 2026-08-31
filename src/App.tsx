@@ -1576,30 +1576,16 @@ export default function App() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.5 }}
-                    className="max-w-7xl mx-auto px-4 md:px-8 py-12 relative min-h-[600px] overflow-hidden rounded-3xl glass-glossy"
+                    className="max-w-7xl mx-auto px-4 md:px-8 py-8 relative min-h-[600px] overflow-hidden rounded-3xl bg-[#fff8f5] border border-[#e9e1dc] shadow-sm"
                   >
-                    {/* Background Ambient Eye-Dashing Image with Glossy Sparkling Classy Retrofitted Shining Effects */}
-                    <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-shiny-retro">
-                      {/* Retro Grid Overlay */}
-                      <div className="absolute inset-0 retro-grid opacity-35" />
-                      
-                      <motion.img
-                        initial={{ opacity: 0, scale: 1.1 }}
-                        animate={{ opacity: 0.6, scale: 1 }}
-                        transition={{ duration: 1.0, ease: "easeOut" }}
+                    {/* High-Performance Ambient Background */}
+                    <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+                      <img
                         src="https://images.unsplash.com/photo-1531206715517-5c0ba140e2b8?auto=format&fit=crop&w=1000&q=50"
                         alt="National Sowers Group"
-                        className="w-full h-full object-cover mix-blend-overlay animate-pulse-slow"
+                        className="w-full h-full object-cover opacity-10"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-b from-[#fff8f5]/50 via-transparent to-[#fff8f5]/50 backdrop-blur-[1.5px]" />
-                      
-                      {/* Interactive Sparkles/Sparks */}
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="absolute top-12 left-1/4 w-3 h-3 bg-amber-300 rounded-full animate-ping" />
-                        <div className="absolute bottom-24 right-1/3 w-2 h-2 bg-[#fe9162] rounded-full animate-ping" style={{ animationDelay: '1s' }} />
-                        <div className="absolute top-1/3 right-12 w-3 h-3 bg-yellow-200 rounded-full animate-ping" style={{ animationDelay: '2s' }} />
-                        <div className="absolute bottom-1/3 left-12 w-2 h-2 bg-orange-400 rounded-full animate-ping" style={{ animationDelay: '1.5s' }} />
-                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-b from-[#fff8f5] via-[#fff8f5]/80 to-[#fff8f5]" />
                     </div>
 
                     {/* Staggered Content Animation Flow */}
