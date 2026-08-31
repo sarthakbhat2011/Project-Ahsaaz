@@ -308,7 +308,7 @@ async function startServer() {
 
   // API Route: Handle Sign Up and send email to sarthakbhat2011@gmail.com
   app.post("/api/signup", csrfCheck, rateLimiter, async (req, res) => {
-    const { name, email, message } = req.body;
+    const { name, email, phone, message, ratings } = req.body;
 
     if (!name || !email) {
       return res.status(400).json({ error: "Name and email are required fields." });
@@ -335,11 +335,11 @@ async function startServer() {
       const ai = getGemini();
       if (ai) {
         const prompt = `You are the guiding spirit of Project Ahsaaz, a compassionate, soothing organization dedicated to deep empathy, hunger relief, and emotional connection.
-A new volunteer has signed up.
+A new volunteer applicant has completed their capability assessment.
 Name: ${name}
 Empathy Message: "${signupMsg}"
 
-Write a short, highly personalized, and deeply moving 2-3 sentence "Ahsaaz Reflection" specifically addressing their message. Express deep, soothing gratitude, and reflect on how their specific intent helps heal isolation and hunger. Avoid standard corporate language or robotic greetings. Speak from the heart. Do not use markdown tags, just return the plain text paragraphs.`;
+Write a short, highly personalized, and deeply moving 2-3 sentence "Ahsaaz Reflection" specifically addressing their message and volunteer spirit. Express deep, soothing gratitude, and reflect on how their specific intent helps heal isolation and hunger. Avoid standard corporate language or robotic greetings. Speak from the heart. Do not use markdown tags, just return the plain text paragraphs.`;
 
         const response = await ai.models.generateContent({
           model: "gemini-3.5-flash",
@@ -347,7 +347,6 @@ Write a short, highly personalized, and deeply moving 2-3 sentence "Ahsaaz Refle
         });
         reflection = response.text || "";
       } else {
-        // Fallback simulator reflection
         reflection = `Thank you, ${name}. Your desire to join Project Ahsaaz stems from a beautiful, deep realization of human connection. By sharing your warmth and addressing hunger with dignity, you are helping to sow a seed of hope that will grow into a sanctuary of support for our community. We are honored to walk this path of true compassion together with you.`;
       }
     } catch (err: any) {
@@ -358,43 +357,122 @@ Write a short, highly personalized, and deeply moving 2-3 sentence "Ahsaaz Refle
     const timestamp = new Date().toISOString();
     const newSignup = { name, email, message: signupMsg, reflection, timestamp };
 
-    // 2. Save signup
+    // Save signup
     const signups = readSignups();
     signups.unshift(newSignup);
-    writeSignups(signups.slice(0, 100)); // Keep last 100 entries
+    writeSignups(signups.slice(0, 100));
 
     // HTML escape for XSS protection inside email template
     const escapedName = escapeHtml(name);
     const escapedEmail = escapeHtml(email);
+    const escapedPhone = phone ? escapeHtml(phone) : "";
     const escapedMessage = escapeHtml(signupMsg);
     const escapedReflection = escapeHtml(reflection);
 
+    // Process capability ratings (8 questions requested by user)
+    const questionsList = [
+      { id: 'communication', question: '1. How would you rate your communication skills??' },
+      { id: 'outreach', question: '2. How comfortable are you with interacting with new people and approaching them for outreach??' },
+      { id: 'initiative', question: '3. How would you rate your ability to take initiative without being constantly instructed??' },
+      { id: 'editing', question: '4. How would you rate your editing/content creation skills??' },
+      { id: 'speaking', question: '5. How would you rate your public speaking skills??' },
+      { id: 'problem_solving', question: '6. How would you rate your problem-solving and time management skills??' },
+      { id: 'teamwork', question: '7. How would you rate your ability to work in a team.??' },
+      { id: 'caregiving', question: '8. How would you rate your ability to interact with children/elderly people.??' }
+    ];
+
+    let totalScore = 0;
+    let validCount = 0;
+
+    const formattedRatings = questionsList.map(q => {
+      const val = (ratings && typeof ratings[q.id] === 'number') ? ratings[q.id] : 7;
+      totalScore += val;
+      validCount++;
+      const pct = val * 10;
+      let badge = 'Proficient';
+      let badgeBg = '#047857';
+      if (val >= 9) { badge = 'Exemplary / Leader'; badgeBg = '#9b451c'; }
+      else if (val >= 7) { badge = 'Proficient'; badgeBg = '#047857'; }
+      else if (val >= 4) { badge = 'Competent'; badgeBg = '#d97706'; }
+      else { badge = 'Developing'; badgeBg = '#6b7280'; }
+
+      return {
+        question: q.question,
+        score: val,
+        pct,
+        badge,
+        badgeBg
+      };
+    });
+
+    const overallAvg = validCount > 0 ? (totalScore / validCount).toFixed(1) : "7.5";
+    const overallPct = Math.round(parseFloat(overallAvg) * 10);
+
     // 3. Compose the HTML email to developer
     const recipientEmail = "sarthakbhat2011@gmail.com";
-    const subject = `[Project Ahsaaz] New Empathetic Sign-up: ${escapedName}`;
+    const subject = `[Project Ahsaaz] Volunteer Capability Application: ${escapedName}`;
     const htmlContent = `
       <div style="font-family: 'Inter', sans-serif; background-color: #fff8f5; color: #1e1b18; padding: 16px; border-radius: 16px; max-width: 100%; box-sizing: border-box; margin: 0 auto; border: 1px solid #e9e1dc; box-shadow: 0 10px 30px rgba(68, 42, 34, 0.05); word-break: break-all; overflow-wrap: anywhere;">
         <div style="text-align: center; margin-bottom: 20px;">
           <h1 style="font-family: 'Source Serif 4', Georgia, serif; color: #442a22; margin: 0 0 6px 0; font-size: 24px; font-weight: 700; letter-spacing: -0.01em;">Project Ahsaaz</h1>
-          <p style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: #9b451c; margin: 0; font-weight: 600;">Empathy in Action &bull; Hunger in Retreat</p>
+          <p style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: #9b451c; margin: 0; font-weight: 600;">Volunteer Assessment &bull; Capability Matrix Log</p>
         </div>
         
         <div style="background-color: #ffffff; padding: 16px; border-radius: 12px; margin-bottom: 16px; border: 1px solid rgba(130, 116, 112, 0.15); box-sizing: border-box; max-width: 100%;">
-          <h2 style="font-family: 'Source Serif 4', Georgia, serif; color: #442a22; margin-top: 0; margin-bottom: 12px; font-size: 18px; border-bottom: 1px solid #f5ece7; padding-bottom: 6px;">Volunteer Registration</h2>
+          <h2 style="font-family: 'Source Serif 4', Georgia, serif; color: #442a22; margin-top: 0; margin-bottom: 12px; font-size: 18px; border-bottom: 2px solid #9b451c; padding-bottom: 6px;">Volunteer Applicant Profile</h2>
           
-          <table style="width: 100%; border-collapse: collapse; table-layout: fixed; word-break: break-all; overflow-wrap: anywhere;">
+          <table style="width: 100%; border-collapse: collapse; table-layout: fixed; word-break: break-all; overflow-wrap: anywhere; margin-bottom: 16px;">
             <tr>
-              <td style="padding: 6px 0; font-weight: 600; color: #504441; font-size: 13px; width: 35%; word-break: break-all;">Full Name:</td>
-              <td style="padding: 6px 0; color: #1e1b18; font-size: 13px; width: 65%; word-break: break-all; overflow-wrap: anywhere;">${escapedName}</td>
+              <td style="padding: 6px 0; font-weight: 600; color: #504441; font-size: 13px; width: 35%;">Full Name:</td>
+              <td style="padding: 6px 0; color: #1e1b18; font-size: 13px; width: 65%; font-weight: 700;">${escapedName}</td>
             </tr>
             <tr>
-              <td style="padding: 6px 0; font-weight: 600; color: #504441; font-size: 13px;">Email:</td>
-              <td style="padding: 6px 0; color: #1e1b18; font-size: 13px; word-break: break-all; overflow-wrap: anywhere;"><a href="mailto:${escapedEmail}" style="color: #9b451c; text-decoration: none; word-break: break-all; overflow-wrap: anywhere;">${escapedEmail}</a></td>
+              <td style="padding: 6px 0; font-weight: 600; color: #504441; font-size: 13px;">Email Address:</td>
+              <td style="padding: 6px 0; color: #1e1b18; font-size: 13px;"><a href="mailto:${escapedEmail}" style="color: #9b451c; text-decoration: none;">${escapedEmail}</a></td>
             </tr>
+            ${escapedPhone ? `
+            <tr>
+              <td style="padding: 6px 0; font-weight: 600; color: #504441; font-size: 13px;">Phone / WhatsApp:</td>
+              <td style="padding: 6px 0; color: #1e1b18; font-size: 13px;">${escapedPhone}</td>
+            </tr>
+            ` : ''}
             <tr>
               <td style="padding: 6px 0; font-weight: 600; color: #504441; font-size: 13px;">Registered at:</td>
-              <td style="padding: 6px 0; color: #1e1b18; font-size: 13px; word-break: break-all;">${new Date(timestamp).toLocaleString()}</td>
+              <td style="padding: 6px 0; color: #1e1b18; font-size: 13px;">${new Date(timestamp).toLocaleString()}</td>
             </tr>
+          </table>
+
+          <div style="background-color: #fbf2ed; border: 1px solid #ffdbce; padding: 12px 16px; border-radius: 10px; margin-bottom: 16px; text-align: center;">
+            <span style="font-size: 11px; font-weight: 700; color: #9b451c; text-transform: uppercase; letter-spacing: 0.08em;">Overall Candidate Capability Index</span>
+            <div style="font-size: 22px; font-weight: 800; color: #442a22; margin: 4px 0;">${overallAvg} / 10 <span style="font-size: 13px; color: #9b451c;">(${overallPct}%)</span></div>
+          </div>
+
+          <h3 style="font-family: 'Source Serif 4', Georgia, serif; color: #442a22; font-size: 15px; margin: 16px 0 10px 0;">Volunteer Capability Rating Matrix (8 Questions)</h3>
+          
+          <table style="width: 100%; border-collapse: collapse; table-layout: fixed; word-break: break-all; font-size: 12px;">
+            <thead>
+              <tr style="background-color: #fff8f5; border-bottom: 1px solid #e9e1dc; text-align: left;">
+                <th style="padding: 8px 4px; color: #442a22; width: 45%;">Assessment Question</th>
+                <th style="padding: 8px 4px; color: #442a22; width: 20%; text-align: center;">Rating</th>
+                <th style="padding: 8px 4px; color: #442a22; width: 35%;">Visual Capability Meter</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${formattedRatings.map(r => `
+                <tr style="border-bottom: 1px solid #f5ece7;">
+                  <td style="padding: 8px 4px; color: #504441; font-weight: 500; font-size: 11px; word-break: break-words;">${escapeHtml(r.question)}</td>
+                  <td style="padding: 8px 4px; text-align: center; font-weight: 700; color: #442a22;">
+                    <span style="background-color: ${r.badgeBg}; color: #ffffff; padding: 2px 6px; border-radius: 8px; font-size: 10px; font-weight: 700; display: inline-block;">${r.score}/10</span>
+                  </td>
+                  <td style="padding: 8px 4px;">
+                    <div style="background-color: #e9e1dc; height: 10px; border-radius: 5px; overflow: hidden; width: 100%;">
+                      <div style="background-color: #9b451c; width: ${r.pct}%; height: 100%; border-radius: 5px;"></div>
+                    </div>
+                    <span style="font-size: 9px; color: #827470; margin-top: 2px; display: block;">${r.badge} (${r.pct}%)</span>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
           </table>
         </div>
 
