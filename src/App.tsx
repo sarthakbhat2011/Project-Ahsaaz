@@ -1563,7 +1563,7 @@ export default function App() {
                       </div>
                     </div>
 
-                    <EmpathyGrove signups={signups} onRefresh={fetchSignups} />
+                    <EmpathyGrove signups={signups} onRefresh={fetchSignups} isDeveloper={isDeveloper} />
                     </motion.div>
                   </motion.div>
                 )}

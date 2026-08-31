@@ -667,6 +667,24 @@ Write a short, highly personalized, and deeply moving 2-3 sentence "Ahsaaz Refle
     res.json({ success: true, name: escapedName });
   });
 
+  // API Route: Delete a sent email from Developer Mailbox
+  app.delete("/api/sent-emails/:id", csrfCheck, rateLimiter, async (req, res) => {
+    const { id } = req.params;
+    const sentEmails = readSentEmails();
+    const updated = sentEmails.filter((email: any) => email.id !== id);
+    writeSentEmails(updated);
+    res.json({ success: true, count: updated.length });
+  });
+
+  // API Route: Delete a volunteer signup / sprout entry (Developer Authority)
+  app.delete("/api/signups/:id", csrfCheck, rateLimiter, async (req, res) => {
+    const { id } = req.params;
+    const signups = readSignups();
+    const updated = signups.filter((s: any) => s.timestamp !== id && s.name !== id && s.email !== id);
+    writeSignups(updated);
+    res.json({ success: true, count: updated.length });
+  });
+
   // Vite development / production configuration
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
